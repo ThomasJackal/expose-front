@@ -9,6 +9,7 @@ import AuthenticatePage from "./view/page/AuthenticatePage";
 import RegisterPage from "./view/page/RegisterPage";
 import EventPage from "./view/page/EventPage";
 import ArtistPage from "./view/page/ArtistPage";
+import MapSearchPage from "./view/page/MapSearchPage";
 
 import { myContext } from "..";
 
@@ -43,7 +44,7 @@ export default function App() {
                             <Routes>
                                 <Route exact path="/" element={<HomePage />} />
                                 <Route exact path="/home" element={<HomePage />} />
-                                <Route exact path="/search" element={<SearchPage setBackground={setBackground} />} />
+                                <Route exact path="/search" element={<MapSearchPage setBackground={setBackground} />} />
                                 <Route exact path="/authenticate" element={<AuthenticatePage />} />
                                 <Route exact path="/register" element={<RegisterPage />} />
                                 <Route exact path="/event/*" element={<EventPage setBackground={setBackground} />} />

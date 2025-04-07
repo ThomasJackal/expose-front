@@ -30,10 +30,10 @@ function buildSearchInput(jsonOutput) {
     return {
         latitude: 1,
         longitude: 1,
-        field: "",
-        perimeter: "",
-        eventType: null,
-        tags: []
+        field: jsonOutput.query,
+        perimeter: jsonOutput.distance,
+        eventType: jsonOutput.eventType,
+        tags: jsonOutput.tags
     }
 }
 

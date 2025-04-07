@@ -46,7 +46,7 @@ export default function Searchbar(props) {
 		e.preventDefault();
 		const jsonOutput = {
 			query: searchParams.query,
-			address: isAddressHidden ? "Autour de moi" : searchParams.address,
+			address: isAddressHidden ? null : searchParams.address,
 			distance: searchParams.distance ? parseInt(searchParams.distance) : null,
 			eventType: searchParams.eventType || null,
 			tags: searchParams.tags.length > 0 ? searchParams.tags : null
