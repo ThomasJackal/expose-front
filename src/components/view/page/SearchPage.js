@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 export default function SearchPage(props) {
 
     const [details, setDetails] = useState(null);
+    const [events, setEvents] = useState([]);
 
     function updateDetails(details) {
         setDetails(details);
@@ -24,7 +25,7 @@ export default function SearchPage(props) {
         featuredArtists: [{ artist_displayed_name: "the artist" }],
         distance: 1,
         eventType: "EXPOSITION",
-        tags: ["PHOTOGRAPHIC","PERFORMANCE"],
+        tags: ["PHOTOGRAPHIC", "PERFORMANCE"],
         image: "/pictures/preview_09-1-scaled.webp"
     };
 
@@ -54,29 +55,37 @@ export default function SearchPage(props) {
         featuredArtists: [{ artist_displayed_name: "the artist" }],
         distance: 3,
         eventType: "AUCTION",
-        tags: ["PAINT","SCULPTURE","VISUAL_ART"],
+        tags: ["PAINT", "SCULPTURE", "VISUAL_ART"],
         image: "/pictures/preview_11.jpg"
     };
+
+    function buildEvents() {
+        if (events.length == 0) return [];
+        else {
+            let result = [];
+            for (let i = 0; i < events.length; i++) {
+                const element = events[i];
+                result.push(
+                    <Event key={i} event={element} setDetailsFunc={updateDetails} />
+                )
+            }
+            return result;
+        }
+    }
 
     return (
         <>
             <Row className="mb-3" xs={{ span: 10, offset: 1 }} md={{ span: 6, offset: 0 }}
                 style={{
                     position: "sticky",
-                    top: "3.5rem",
+                    top: "1rem",
                     zIndex: 10
                 }}>
-                <Searchbar />
+                <Searchbar setEvents={setEvents} />
             </Row>
             <Row>
                 <Col xs={{ span: 12, offset: 0 }} md={{ span: 5, offset: 0 }} className="justify-content-center">
-                    <Event event={event1} setDetailsFunc={updateDetails} />
-                    <Event event={event2} setDetailsFunc={updateDetails} />
-                    <Event event={event3} setDetailsFunc={updateDetails} />
-                    <Event event={event1} setDetailsFunc={updateDetails} />
-                    <Event event={event2} setDetailsFunc={updateDetails} />
-                    <Event event={event3} setDetailsFunc={updateDetails} />
-                    <Event event={event1} setDetailsFunc={updateDetails} />
+                    {buildEvents()}
                 </Col>
                 <Col xs={{ span: 12, offset: 0 }} md={{ span: 7, offset: 0 }} >
                     <Details event={details} />
@@ -110,14 +119,14 @@ function Event(props) {
                 <Card.Img variant="top" src={props.event.image} />
                 <Card.Body>
                     <Card.Title>{props.event.name}</Card.Title>
-                    <Card.Text>
+                    <div>
                         {props.event.description}
                         <div className="w-100 mt-2">
                             <Badge bg="success">{`${props.event.distance}km`}</Badge>
                             <Badge bg="warning">{props.event.eventType}</Badge>
                             {getTagBadges()}
                         </div>
-                    </Card.Text>
+                    </div>
                 </Card.Body>
             </Card>
         </Button>

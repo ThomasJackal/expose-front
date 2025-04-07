@@ -4,12 +4,20 @@ import Form from 'react-bootstrap/Form';
 import { search } from "../controller/SearchController";
 import { useNavigate } from "react-router-dom";
 
-export default function Searchbar() {
+export default function Searchbar(props) {
 
 	const navigate = useNavigate();
 	const [isAddressHidden, setIsAddressHidden] = useState(true);
 
-	function CustomToggle({ children, eventKey }) {
+	const [searchParams, setSearchParams] = useState({
+		query: "",
+		address: "",
+		distance: "",
+		eventType: "",
+		tags: []
+	});
+
+	function AdvancedSearchToggle({ children, eventKey }) {
 		const decoratedOnClick = useAccordionButton(eventKey);
 
 		return (
@@ -17,10 +25,65 @@ export default function Searchbar() {
 		);
 	}
 
+	function handleChange(e) {
+		setSearchParams({
+			...searchParams,
+			[e.target.name]: e.target.value
+		});
+	}
+
+	function handleCheckboxChange(e) {
+		const { value, checked } = e.target;
+		setSearchParams((prev) => ({
+			...prev,
+			tags: checked
+				? [...prev.tags, value]
+				: prev.tags.filter(tag => tag !== value)
+		}));
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		const jsonOutput = {
+			query: searchParams.query,
+			address: isAddressHidden ? "Autour de moi" : searchParams.address,
+			distance: searchParams.distance ? parseInt(searchParams.distance) : null,
+			eventType: searchParams.eventType || null,
+			tags: searchParams.tags.length > 0 ? searchParams.tags : null
+		};
+		search(jsonOutput, navigate, props.setEvents);
+	}
+
+
 	return (
-		<Form onSubmit={() => search(navigate)} style={{filter: "drop-shadow(0 0 0.75rem rgba(0,0,0,0.5))"}}>
-			<div className="d-flex">
-				<Form.Control type="text" placeholder="Entrez un nom d'événement, d'artiste ou de galerie..." />
+		<Form onSubmit={handleSubmit} style={{ filter: "drop-shadow(0 0 0.75rem rgba(0,0,0,0.5))" }}>
+			<div className="d-flex mb-2">
+				<div className="w-100">
+					<Form.Control
+						type="text"
+						placeholder="Entrez un nom d'événement, d'artiste ou de galerie..."
+						name="query"
+						value={searchParams.query}
+						onChange={handleChange}
+					/>
+					<InputGroup>
+						<InputGroup.Text>
+							<Form.Check
+								type="checkbox"
+								onChange={(e) => setIsAddressHidden(e.target.checked)}
+								defaultChecked={isAddressHidden}
+								label={<i className="fa-solid fa-location-dot"></i>}
+							/>
+						</InputGroup.Text>
+						<Form.Control
+							placeholder={isAddressHidden ? "Autour de moi" : "Entrez une addresse"}
+							disabled={isAddressHidden}
+							name="address"
+							value={searchParams.address}
+							onChange={handleChange}
+						/>
+					</InputGroup>
+				</div>
 				<Button variant="dark" type="submit"><i className='fa fa-search'></i></Button>
 			</div>
 
@@ -28,28 +91,20 @@ export default function Searchbar() {
 				<Card>
 					<Card.Header className="p-0 m-0 d-flex justify-content-between">
 						<div className="mt-1 ms-2">Paramètres de recherche avancés</div>
-						<CustomToggle><i className="fa fa-chevron-down text-end"></i></CustomToggle>
+						<AdvancedSearchToggle><i className="fa fa-chevron-down text-end"></i></AdvancedSearchToggle>
 					</Card.Header>
 					<Accordion.Collapse>
 						<Card.Body>
-							<Form.Group className="mb-3" controlId="formGridAddress1">
-								<Form.Label>Adresse</Form.Label>
-								<Form.Check
-									type="switch"
-									label="Autour de moi"
-									onChange={(e) => setIsAddressHidden(e.target.checked)}
-									defaultChecked={isAddressHidden}
-								/>
-								<Form.Control hidden={isAddressHidden} placeholder="Entrez une adresse..." />
-							</Form.Group>
-							<hr />
 							<Row className="mb-3">
-								<Form.Group as={Col} controlId="formGridCity">
+								<Form.Group as={Col}>
 									<Form.Label>Périmètre de recherche</Form.Label>
 									<InputGroup>
 										<Form.Control
 											placeholder="distance en km"
 											type="number"
+											name="distance"
+											value={searchParams.distance}
+											onChange={handleChange}
 										/>
 										<InputGroup.Text>km</InputGroup.Text>
 									</InputGroup>
@@ -57,22 +112,32 @@ export default function Searchbar() {
 
 								<Form.Group as={Col} controlId="formGridState">
 									<Form.Label>Type d'événement</Form.Label>
-									<Form.Select defaultValue="Choose...">
-										<option>Choose...</option>
-										<option>...</option>
+									<Form.Select
+										name="eventType"
+										value={searchParams.eventType}
+										onChange={handleChange}
+									>
+										<option value="">Choisissez...</option>
+										<option value="EXPOSITION">Exposition</option>
+										<option value="AUCTION">Enchères</option>
+										<option value="STUDIO_OPENING">Vernissage</option>
+										<option value="OTHER">Autre</option>
 									</Form.Select>
 								</Form.Group>
 							</Row>
 							<hr />
-							<Form.Group className="mb-3" id="formGridCheckbox">
+							<Form.Group className="mb-3">
 								<Form.Label>Tag(s)</Form.Label>
-								<Form.Check type="checkbox" label="PAINT" />
-								<Form.Check type="checkbox" label="SCULPTURE" />
-								<Form.Check type="checkbox" label="SCENIC_ARTS" />
-								<Form.Check type="checkbox" label="PHOTOGRAPHIC" />
-								<Form.Check type="checkbox" label="MUSICAL" />
-								<Form.Check type="checkbox" label="PERFORMANCE" />
-								<Form.Check type="checkbox" label="VISUAL_ART" />
+								{["PAINT", "SCULPTURE", "SCENIC_ARTS", "PHOTOGRAPHIC", "MUSICAL", "PERFORMANCE", "VISUAL_ART"].map((tag) => (
+									<Form.Check 
+										key={tag}
+										type="checkbox" 
+										label={tag}
+										value={tag}
+										checked={searchParams.tags.includes(tag)}
+										onChange={handleCheckboxChange}
+									/>
+								))}
 							</Form.Group>
 						</Card.Body>
 					</Accordion.Collapse>

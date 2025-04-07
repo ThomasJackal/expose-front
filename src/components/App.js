@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -15,7 +15,11 @@ import { myContext } from "..";
 export default function App() {
 
     const [background, setBackground] = useState("/pictures/background.jpg");
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem("token"));
+
+    useEffect(() => {
+        localStorage.setItem("token", token)
+    }, []);
 
     var backgroundStyle = {
         position: "absolute",

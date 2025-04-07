@@ -21,7 +21,7 @@ export default function EventPage(props) {
     const handleShowReservationDetails = () => setShowReservationDetails(true);
 
     useEffect(() => {
-        //props.setBackground(event.images[0]);
+        if (event != null && event.images.length > 0) props.setBackground(event.images[0]);
     }, []);
 
     if (event == null) {
@@ -123,7 +123,6 @@ export default function EventPage(props) {
                 )
             }
             return result;
-
         }
     }
 

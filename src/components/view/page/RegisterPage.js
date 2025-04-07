@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Card, Col, Form, Nav, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Button, Card, Col, Form, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { register } from "../../controller/RegisterController";
 import { myContext } from "../../..";
 import { useNavigate } from "react-router-dom";
@@ -9,12 +9,6 @@ export default function RegisterPage() {
     const navigate = useNavigate();
     const [, setToken] = useContext(myContext);
     const [errors, setErrors] = useState({});
-
-    const renderTooltip = (props) => (
-        <Tooltip id="button-tooltip" {...props}>
-            Un utilisateur normal garde la possibilité de devenir compte artiste même après l'inscription.
-        </Tooltip>
-    );
 
     const [formData, setFormData] = useState({
         email: "",
@@ -29,6 +23,12 @@ export default function RegisterPage() {
             accountType: ""
         }
     });
+
+    const renderTooltip = (props) => (
+        <Tooltip id="button-tooltip" {...props}>
+            Un utilisateur normal garde la possibilité de devenir compte artiste même après l'inscription.
+        </Tooltip>
+    );
 
     function handleChange(e) {
         setFormData({

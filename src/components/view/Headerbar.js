@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Badge, Button, Container, Nav, Navbar } from "react-bootstrap";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { myContext } from "../..";
 
 export default function Headerbar() {
@@ -82,14 +82,6 @@ export default function Headerbar() {
                         <i className='fa fa-user me-2'></i>
                         <div className="d-none d-md-inline">Profil</div>
                     </Nav.Link>
-                    <Nav.Link as={Link} eventKey='3' to="/gallery" hidden={!isConnected()}>
-                        <i className='fa fa-users me-2'></i>
-                        <div className="d-none d-md-inline">Mécénat</div>
-                    </Nav.Link>
-                    <Nav.Link as={Link} eventKey='4' to="/glossary" >
-                        <i className='fa fa-book me-2'></i>
-                        <div className="d-none d-md-inline">Événements</div>
-                    </Nav.Link>
                     <Nav.Link as={Link} eventKey='5' to="/authenticate" hidden={isConnected()}>
                         <i className='fa fa-key me-2'></i>
                         <div className="d-none d-md-inline">Connexion</div>
@@ -102,7 +94,7 @@ export default function Headerbar() {
                     </Nav.Link>
                 </Nav>
             </Container>
-            <Button variant="transperant" className="m-0 p-0 ms-auto me-4">
+            <Button variant="transparent" className="m-0 p-0 ms-auto me-4">
                 <i className='fa fa-bell mx-1 text-light'></i>
                 <Badge bg="danger">1</Badge>
             </Button>
