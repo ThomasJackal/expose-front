@@ -3,13 +3,15 @@ import getBackUrl from "./backUrl";
 
 export function search(jsonOutput, navigate, setEvents, searchPosition) {
 
-    const LatLong = [1,1];
+    const searchInput = buildSearchInput(jsonOutput, searchPosition);
 
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(buildSearchInput(jsonOutput, LatLong))
+        body: JSON.stringify(searchInput)
     };
+
+    console.log(requestOptions);
 
     fetch(`${getBackUrl()}/event/search`, requestOptions)
         .then(response => response.ok ? response.json() : Promise.reject(response))
@@ -25,8 +27,8 @@ export function search(jsonOutput, navigate, setEvents, searchPosition) {
 function buildSearchInput(jsonOutput, LatLong) {
 
     return {
-        latitude: LatLong[0],
-        longitude: LatLong[1],
+        latitude: LatLong.lat,
+        longitude: LatLong.lng,
         field: jsonOutput.query,
         perimeter: jsonOutput.distance,
         eventType: jsonOutput.eventType,

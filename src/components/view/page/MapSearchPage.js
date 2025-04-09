@@ -10,7 +10,7 @@ export default function SearchPage() {
 
     const [details, setDetails] = useState(null);
     const [events, setEvents] = useState([]);
-    const [searchPosition, setSearchPosition] = useState([0.5, 0.5]);
+    const [searchPosition, setSearchPosition] = useState({lat:0.5, lng:0.5});
 
 
 
@@ -66,7 +66,7 @@ export default function SearchPage() {
         })
 
         useEffect(() => {
-            if (details == null) map.flyTo(props.position, map.getZoom());
+            if (details == null) map.flyTo(props.position, 13);
             props.setPosition(position);
         }, [position, props.position])
 
@@ -94,40 +94,81 @@ export default function SearchPage() {
         }
     }
 
+    function buildEvents() {
+        if (events.length == 0) return [];
+        else {
+            let result = [];
+            for (let i = 0; i < events.length; i++) {
+                const element = events[i];
+                result.push(
+                    <Event key={i} event={element} setDetailsFunc={setDetails} />
+                )
+            }
+            return result;
+        }
+    }
+
     return (
-        <div className="flex-column">
-            <Container style={{ position: "absolute", top: "4rem", left: 0, right: 0 }} className="p-0">
-                <Row style={{ height: "81vh", }}>
-                    <MapContainer
-                        style={{
-                            height: "100%",
-                            zIndex: 0,
-                            filter: "drop-shadow(0 0 0.75rem rgba(0,0,0,0.5))",
-                        }}
-                        center={[48.2276, 2.2137]}
-                        zoom={5}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <PositionMarker position={searchPosition} setPosition={setSearchPosition} />
-                        {buildMarkers()}
-                    </MapContainer>
+        <div>
+            <div className="flex-column">
+                <Container style={{ position: "absolute", top: "4rem", left: 0, right: 0 }} className="p-0">
+                    <Row style={{ height: "81vh", }}>
+                        <MapContainer
+                            style={{
+                                height: "100%",
+                                zIndex: 0,
+                                filter: "drop-shadow(0 0 0.75rem rgba(0,0,0,0.5))",
+                            }}
+                            center={[48.2276, 2.2137]}
+                            zoom={5}
+                        >
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <PositionMarker position={searchPosition} setPosition={setSearchPosition} />
+                            {buildMarkers()}
+                        </MapContainer>
 
-                    <Col xs={{ offset: 1, span: 10 }} style={{ position: "absolute", zIndex: 5, top: "1rem" }}>
-                        <Searchbar setEvents={setEvents} setSearchPosition={setSearchPosition} />
-                    </Col>
-
-                    <Col lg={{span: 4, offset: 8}} md={{ span: 6, offset: 6 }} xs={{ span: 10, offset: 0 }} style={{ position: "absolute", zIndex: 4, bottom: "1rem", right: "-1rem" }}>
-                        <Details event={details} />
-                    </Col>
-                </Row>
-            </Container>
-            <div>
-                Salut
+                        <Col xs={{ offset: 1, span: 10 }} style={{ position: "absolute", zIndex: 5, top: "1rem" }}>
+                            <Searchbar setEvents={setEvents} searchPosition={searchPosition} />
+                        </Col>
+                    </Row>
+                </Container>
+                <Col xs={{ offset: 0, span: 12 }} md={{ offset: 0, span: 8 }} style={{ marginTop: "83vh" }} className="justify-content-center">
+                    {buildEvents()}
+                </Col>
+            </div>
+            <div style={{ position: "sticky", left: 0, right: 0, bottom: 0, top: 0 }}>
+                <Col lg={{ span: 4, offset: 8 }} md={{ span: 6, offset: 6 }} xs={{ span: 10, offset: 2 }} style={{ zIndex: 4, position: "absolute", top:"-15rem" }} className="sticky-top">
+                    <Details event={details} />
+                </Col>
             </div>
         </div>
+    );
+}
+
+function Event(props) {
+
+    return (
+        <Button
+            className="p-0 border-0 m-1" style={{ width: '15rem' }}
+            onClick={() => props.setDetailsFunc(props.event)}
+        >
+            <Card>
+                <Card.Img variant="top" src={props.event.image} />
+                <Card.Body>
+                    <Card.Title>{props.event.name}</Card.Title>
+                    <div>
+                        {props.event.description}
+                        <div className="w-100 mt-2">
+                            <Badge bg="success">{`${props.event.distance}km`}</Badge>
+                            <Badge bg="warning">{props.event.eventType}</Badge>
+                        </div>
+                    </div>
+                </Card.Body>
+            </Card>
+        </Button>
     );
 }
 
@@ -146,17 +187,17 @@ function Details(props) {
     }
 
     return (
-        <div style={{filter: 'drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.5))'}}>
+        <div style={{ filter: 'drop-shadow(0 0 0.75rem rgba(255, 255, 255, 0.5))' }}>
             <Carousel slide={false} interval={null}>
                 <Carousel.Item>
-                    <img className="w-100" style={{ height: "30vh", borderRadius:"10px"}} src={props.event.image}></img>
+                    <img className="w-100" style={{ height: "30vh", borderRadius: "10px" }} src={props.event.image}></img>
                     <Carousel.Caption>
                         <h3>{props.event.name}</h3>
                         <p>{props.event.description}</p>
                     </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
-                    <img className="w-100" style={{ height: "30vh" , borderRadius:"10px"}} src={props.event.image}></img>
+                    <img className="w-100" style={{ height: "30vh", borderRadius: "10px" }} src={props.event.image}></img>
                     <Carousel.Caption>
                         <h3>{getArtistsParticipationView(props.event.featuredArtists)}</h3>
                         <p>{`du ${props.event.start} au ${props.event.end}`}</p>
