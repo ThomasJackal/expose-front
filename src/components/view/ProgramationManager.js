@@ -29,7 +29,7 @@ const daysDifference = (date1, date2) => {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
 
-export default function ProgrammationManager({ initialProgrammation, onChange }) {
+export default function ProgramationManager({ initialProgrammation, onChange, errors }) {
     const [daysData, setDaysData] = useState(() => {
         if (initialProgrammation?.slots?.length > 0 && initialProgrammation.start_date) {
             const grouped = {};
@@ -46,7 +46,7 @@ export default function ProgrammationManager({ initialProgrammation, onChange })
             });
             return Object.values(grouped).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         }
-        return [{ date: formatDate(new Date()), startTime: '', endTime: '' }];
+        return [{ date: formatDate(new Date()), startTime: '09:00', endTime: '18:00' }];
     });
 
     useEffect(() => {
@@ -129,6 +129,7 @@ export default function ProgrammationManager({ initialProgrammation, onChange })
                                     type="time"
                                     value={day.startTime}
                                     onChange={(e) => handleDayChange(index, 'startTime', e.target.value)}
+                                    isInvalid={!!errors[`start_time_${index}`]}
                                 />
                             </td>
                         ))}
@@ -141,6 +142,7 @@ export default function ProgrammationManager({ initialProgrammation, onChange })
                                     type="time"
                                     value={day.endTime}
                                     onChange={(e) => handleDayChange(index, 'endTime', e.target.value)}
+                                    isInvalid={!!errors[`end_time_${index}`]}
                                 />
                             </td>
                         ))}

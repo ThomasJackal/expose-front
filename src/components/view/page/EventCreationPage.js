@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Card, Form, Row, Col, Table } from "react-bootstrap";
-import ProgrammationManager from "../ProgrammationManager";
+import { Button, Card, Form, Row, Col, Table, Container } from "react-bootstrap";
+import ProgramationManager from "../ProgramationManager";
 import TicketingManager from "../TicketingManager";
+import ImageManager from "../ImageManager";
+import MapManager from "../MapManager";
+import TagManager from "../TagManager";
 
 export default function EventForm() {
     const [formData, setFormData] = useState({
@@ -9,7 +12,7 @@ export default function EventForm() {
         description: "",
         programation: {
             start_date: "",
-            slots: [{ days_from_start: 0, start_time: "", end_time: "" }],
+            slots: [{ days_from_start: 0, start_time: "09:00", end_time: "18:00" }],
         },
         eventType: "EXPOSITION",
         billetterie: {
@@ -22,7 +25,7 @@ export default function EventForm() {
             longitude: 0,
         },
         tags: [],
-        images: [{ imageLink: "" }],
+        images: [],
         owner_artist_role: "creator",
     });
 
@@ -36,50 +39,33 @@ export default function EventForm() {
         }));
     };
 
-    const handleNestedChange = (category, field, value) => {
-        setFormData((prevData) => ({
+    const handleProgramationChange = useCallback((programationData) => {
+        setFormData(prevData => ({
             ...prevData,
-            [category]: {
-                ...prevData[category],
-                [field]: value,
-            },
+            programation: programationData
         }));
-    };
-
-    const handleProgrammationChange = useCallback((programmationData) => {
-        setFormData(prevData => ({ ...prevData, programmation: programmationData }));
     }, []);
 
     const handleTicketingChange = useCallback((ticketingData) => {
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
             ...prevData,
             billetterie: ticketingData,
         }));
     }, []);
 
-    const handleArrayChange = (category, index, field, value) => {
-        setFormData((prevData) => {
-            const newArray = [...prevData[category]];
-            newArray[index][field] = value;
-            return {
-                ...prevData,
-                [category]: newArray,
-            };
-        });
-    };
+    const handleImageChange = useCallback((newImages) => {
+        setFormData(prevData => ({
+            ...prevData,
+            images: newImages
+        }));
+    }, []);
 
-    const addArrayElement = (category) => {
-        setFormData((prevData) => {
-            const newArray = [...prevData[category]];
-            if (category === "images") {
-                newArray.push({ imageLink: "" });
-            }
-            return {
-                ...prevData,
-                [category]: newArray,
-            };
-        });
-    };
+    const handleAddressChange = useCallback((addressData) => {
+        setFormData(prevData => ({
+            ...prevData,
+            address: addressData,
+        }));
+    }, []);
 
     const handleBilletterieToggle = () => {
         setFormData((prevData) => ({
@@ -137,8 +123,6 @@ export default function EventForm() {
             }
         }
 
-        if (!formData.address.latitude || !formData.address.longitude) newErrors.address = "L'adresse (latitude et longitude) est requise.";
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -149,104 +133,76 @@ export default function EventForm() {
                 <Card.Header><h4>Créer un Événement</h4></Card.Header>
 
                 <Card.Body>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Nom de l'événement</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            isInvalid={!!errors.name}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
-                    </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            name="description"
-                            value={formData.description}
-                            onChange={handleChange}
-                            isInvalid={!!errors.description}
-                        />
-                        <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <Form.Label>Type d'événement</Form.Label>
-                        <Form.Select
-                            name="eventType"
-                            value={formData.eventType}
-                            onChange={handleChange}
-                        >
-                            <option value="EXPOSITION">Exposition</option>
-                            <option value="AUCTION">Enchères</option>
-                            <option value="STUDIO_OPENING">Vernissage</option>
-                            <option value="OTHER">Autre</option>
-                        </Form.Select>
-                    </Form.Group>
-
-                    <Form.Group className="mb-3">
-                        <Form.Label>Tags (séparés par des virgules)</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="tags"
-                            value={formData.tags.join(',')}
-                            onChange={(e) => setFormData({ ...formData, tags: e.target.value.split(',') })}
-                        />
-                    </Form.Group>
-
-                    {formData.images.map((image, index) => (
-                        <div key={index}>
-                            <h5>Image {index + 1}</h5>
+                    <Row>
+                        <Col xs={{ span: 12 }} md={{ span: 6 }}>
                             <Form.Group className="mb-3">
-                                <Form.Label>Lien de l'image</Form.Label>
+                                <Form.Label>Nom de l'événement</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    value={image.imageLink}
-                                    onChange={(e) => handleArrayChange('images', index, 'imageLink', e.target.value)}
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.name}
                                 />
+                                <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
                             </Form.Group>
-                        </div>
-                    ))}
-                    <Button variant="secondary" onClick={() => addArrayElement('images')}>Ajouter une image</Button>
 
-                    <hr />
-                    <h5>Localisation</h5>
-                    <Row>
-                        <Col md={6}>
                             <Form.Group className="mb-3">
-                                <Form.Label>Latitude</Form.Label>
+                                <Form.Label>Description</Form.Label>
                                 <Form.Control
-                                    type="number"
-                                    name="latitude"
-                                    value={formData.address.latitude}
-                                    onChange={(e) => handleNestedChange('address', 'latitude', e.target.value)}
-                                    isInvalid={!!errors.address}
+                                    as="textarea"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.description}
                                 />
-                                <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{errors.description}</Form.Control.Feedback>
                             </Form.Group>
                         </Col>
-                        <Col md={6}>
+
+                        <Col xs={{ span: 12 }} md={{ span: 6 }}>
                             <Form.Group className="mb-3">
-                                <Form.Label>Longitude</Form.Label>
-                                <Form.Control
-                                    type="number"
-                                    name="longitude"
-                                    value={formData.address.longitude}
-                                    onChange={(e) => handleNestedChange('address', 'longitude', e.target.value)}
-                                    isInvalid={!!errors.address}
-                                />
-                                <Form.Control.Feedback type="invalid">{errors.address}</Form.Control.Feedback>
+                                <h5><Form.Label>Type d'événement</Form.Label></h5>
+                                <Form.Select
+                                    name="eventType"
+                                    value={formData.eventType}
+                                    onChange={handleChange}
+                                >
+                                    <option value="EXPOSITION">Exposition</option>
+                                    <option value="AUCTION">Enchères</option>
+                                    <option value="STUDIO_OPENING">Vernissage</option>
+                                    <option value="OTHER">Autre</option>
+                                </Form.Select>
                             </Form.Group>
+
+                            <TagManager
+                                setFormData={setFormData}
+                            />
+                        </Col>
+
+                        <hr />
+
+                        <Col xs={{ span: 12 }} md={{ span: 6 }}>
+                            <ImageManager
+                                currentImages={formData.images}
+                                onImageChange={handleImageChange}
+                            />
+                        </Col>
+
+                        <Col xs={{ span: 12 }} md={{ span: 6 }}>
+                            <MapManager
+                                onAddressChange={handleAddressChange}
+                                errors={errors}
+                            />
                         </Col>
                     </Row>
 
                     <hr />
-                    <ProgrammationManager
+                    <ProgramationManager
                         initialProgrammation={formData.programation}
-                        onChange={handleProgrammationChange}
+                        onChange={handleProgramationChange}
+                        errors={errors}
                     />
 
                     <Card bg="success" className="mt-3">
@@ -266,6 +222,7 @@ export default function EventForm() {
                                 <TicketingManager
                                     initialTicketing={formData.billetterie}
                                     onChange={handleTicketingChange}
+                                    errors={errors}
                                 />
                             )}
                             {!formData.billetterie.enabled && (

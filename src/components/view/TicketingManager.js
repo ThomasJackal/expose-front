@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup, Table } from "react-bootstrap";
 
-export default function TicketingManager({ initialTicketing, onChange }) {
+export default function TicketingManager({ initialTicketing, onChange, errors }) {
     const [ticketingData, setTicketingData] = useState(initialTicketing || {
         closing_datetime: '',
         ticketTypes: [],
@@ -117,6 +117,7 @@ export default function TicketingManager({ initialTicketing, onChange }) {
                     value={ticketingData.closing_datetime ? ticketingData.closing_datetime.slice(0, 16) : ''}
                     onChange={handleClosingDateTimeChange}
                     className="mb-3"
+                    isInvalid={errors.closing_datetime}
                 />
             </div>
 
