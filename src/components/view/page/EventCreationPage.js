@@ -1,12 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Button, Card, Form, Row, Col, Table, Container } from "react-bootstrap";
 import ProgramationManager from "../ProgramationManager";
 import TicketingManager from "../TicketingManager";
 import ImageManager from "../ImageManager";
 import MapManager from "../MapManager";
 import TagManager from "../TagManager";
+import { myContext } from "../../..";
+import { saveEvent } from "../../controller/EventCreationController";
 
 export default function EventForm() {
+
+    const [token,] = useContext(myContext);
+
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -63,7 +68,10 @@ export default function EventForm() {
     const handleAddressChange = useCallback((addressData) => {
         setFormData(prevData => ({
             ...prevData,
-            address: addressData,
+            address: {
+                latitude:addressData.lat,
+                longitude:addressData.lng
+            },
         }));
     }, []);
 
@@ -94,6 +102,7 @@ export default function EventForm() {
         };
 
         console.log(JSON.stringify(jsonOutput, null, 2));
+        saveEvent(jsonOutput, token);
     };
 
     const validateForm = () => {

@@ -51,7 +51,8 @@ export default function Searchbar(props) {
 			eventType: searchParams.eventType || null,
 			tags: searchParams.tags.length > 0 ? searchParams.tags : null
 		};
-		search(jsonOutput, navigate, props.setEvents, props.searchPosition);
+		console.log(props.searchPosition)
+		search(jsonOutput, props.setEvents, props.searchPosition);
 	}
 
 

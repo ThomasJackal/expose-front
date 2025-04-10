@@ -5,6 +5,7 @@ import { Badge, Button, Card, Carousel, Col, Container, Nav, Offcanvas, OverlayT
 import { Link } from "react-router-dom";
 
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
+import { FlyToLocation } from "../MapManager";
 
 export default function SearchPage() {
 
@@ -59,7 +60,8 @@ export default function SearchPage() {
         }, [])
 
         const map = useMapEvents({
-            click() {
+            locationfound(e) {
+                setPosition(e.latlng)
             }
         })
 
@@ -124,6 +126,7 @@ export default function SearchPage() {
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
+                            <FlyToLocation/>
                             <PositionMarker position={searchPosition} setPosition={setSearchPosition} />
                             {buildMarkers()}
                         </MapContainer>

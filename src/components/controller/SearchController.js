@@ -1,8 +1,7 @@
-import React from "react";
 import getBackUrl from "./backUrl";
 
-export function search(jsonOutput, navigate, setEvents, searchPosition) {
-
+export function search(jsonOutput, setEvents, searchPosition) {
+    
     const searchInput = buildSearchInput(jsonOutput, searchPosition);
 
     const requestOptions = {
@@ -11,7 +10,6 @@ export function search(jsonOutput, navigate, setEvents, searchPosition) {
         body: JSON.stringify(searchInput)
     };
 
-    console.log(requestOptions);
 
     fetch(`${getBackUrl()}/event/search`, requestOptions)
         .then(response => response.ok ? response.json() : Promise.reject(response))

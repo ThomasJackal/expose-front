@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { Button, Form, InputGroup } from "react-bootstrap";
-import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import { fetchAddress } from "../controller/MapController";
 
 export default function MapManager({ onAddressChange, errors }) {
@@ -31,11 +31,16 @@ export default function MapManager({ onAddressChange, errors }) {
                     <Button onClick={async () => handleSearch("5 boulevard de la pépinière")} ><i className="fa-solid fa-magnifying-glass"></i></Button>
                 </InputGroup.Text>
             </InputGroup>
-            <MapContainer center={center} zoom={13} style={{ height: '300px', width: '100%', marginBottom: '15px' }}>
+            <MapContainer
+                center={center}
+                zoom={13}
+                style={{ height: '300px', width: '100%', marginBottom: '15px' }}
+            >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                <FlyToLocation />
                 <DraggableMarker position={position} setPosition={setPosition} />
             </MapContainer>
             <h6><small>lat: {position.lat}<br />lng: {position.lng}</small></h6>
@@ -45,7 +50,11 @@ export default function MapManager({ onAddressChange, errors }) {
     function DraggableMarker(props) {
         const markerRef = useRef(null)
 
-        const map = useMapEvents({})
+        const map = useMapEvents({
+            locationfound(e) {
+                setPosition(e.latlng)
+            }
+        })
 
         useEffect(() => {
             map.flyTo(props.position, map.getZoom())
@@ -72,4 +81,14 @@ export default function MapManager({ onAddressChange, errors }) {
             </Marker>
         )
     }
+}
+
+export function FlyToLocation() {
+    const map = useMap();
+
+    useEffect(() => {
+        map.locate();
+    }, [map]);
+
+    return null;
 }
