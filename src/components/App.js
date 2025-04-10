@@ -4,22 +4,22 @@ import { Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Headerbar from "./view/Headerbar";
 import HomePage from "./view/page/HomePage";
-import SearchPage from "./view/page/SearchPage";
 import AuthenticatePage from "./view/page/AuthenticatePage";
 import RegisterPage from "./view/page/RegisterPage";
 import EventPage from "./view/page/EventPage";
 import ArtistPage from "./view/page/ArtistPage";
 import MapSearchPage from "./view/page/MapSearchPage";
+import EventCreationPage from "./view/page/EventCreationPage";
 
 import { myContext } from "..";
 
 export default function App() {
 
     const [background, setBackground] = useState("/pictures/background.jpg");
-    const [token, setToken] = useState(localStorage.getItem("token"));
+    const [token, setToken] = useState(sessionStorage.getItem("token"));
 
     useEffect(() => {
-        localStorage.setItem("token", token)
+        sessionStorage.setItem("token", token)
     }, []);
 
     var backgroundStyle = {
@@ -49,6 +49,7 @@ export default function App() {
                                 <Route exact path="/register" element={<RegisterPage />} />
                                 <Route exact path="/event/*" element={<EventPage setBackground={setBackground} />} />
                                 <Route exact path="/artist/*" element={<ArtistPage setBackground={setBackground} />} />
+                                <Route exact path="/create/event" element={<EventCreationPage/>} />
                             </Routes>
                         </Container>
                     </article>

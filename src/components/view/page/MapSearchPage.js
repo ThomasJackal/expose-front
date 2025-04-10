@@ -12,8 +12,6 @@ export default function SearchPage() {
     const [events, setEvents] = useState([]);
     const [searchPosition, setSearchPosition] = useState({lat:0.5, lng:0.5});
 
-
-
     function EventMarker(props) {
         const [position, setPosition] = useState([props.event.latitude, props.event.longitude])
 
