@@ -7,11 +7,11 @@ import HomePage from "./view/page/HomePage";
 import AuthenticatePage from "./view/page/AuthenticatePage";
 import RegisterPage from "./view/page/RegisterPage";
 import EventPage from "./view/page/EventPage";
-import ArtistPage from "./view/page/ArtistPage";
 import MapSearchPage from "./view/page/MapSearchPage";
 import EventCreationPage from "./view/page/EventCreationPage";
 
 import { myContext } from "..";
+import ProfilePage from "./view/page/ProfilePage";
 
 export default function App() {
 
@@ -20,7 +20,7 @@ export default function App() {
 
     useEffect(() => {
         sessionStorage.setItem("token", token)
-    }, []);
+    }, [token]);
 
     var backgroundStyle = {
         position: "absolute",
@@ -48,7 +48,7 @@ export default function App() {
                                 <Route exact path="/authenticate" element={<AuthenticatePage />} />
                                 <Route exact path="/register" element={<RegisterPage />} />
                                 <Route exact path="/event/*" element={<EventPage setBackground={setBackground} />} />
-                                <Route exact path="/artist/*" element={<ArtistPage setBackground={setBackground} />} />
+                                <Route exact path="/user/*" element={<ProfilePage/>} />
                                 <Route exact path="/create/event" element={<EventCreationPage/>} />
                             </Routes>
                         </Container>

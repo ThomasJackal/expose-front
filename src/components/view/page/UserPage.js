@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function ArtistPage(props) {
+export default function UserPage(props) {
     return (<></>);
 }

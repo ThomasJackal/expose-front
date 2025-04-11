@@ -187,7 +187,7 @@ export default function EventPage(props) {
                 if (props.user.artist != null) {
                     return (
                         <Nav>
-                            <Nav.Link as={Link} eventKey='0' to={`/artist/${props.user.artist.username}`}>
+                            <Nav.Link as={Link} eventKey='0' to={`/user/?username=${props.user.artist.username}`}>
                                 <img src={props.user.artist.profilePicture}
                                     style={{
                                         height: 40,

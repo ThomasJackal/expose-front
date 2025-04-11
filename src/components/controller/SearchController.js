@@ -18,7 +18,7 @@ export function search(jsonOutput, setEvents, searchPosition) {
             setEvents(json);
         })
         .catch(response => {
-            console.error("Une erreur s'est produite lors de l'authentification", `${response}`);
+            console.error("Une erreur s'est produite lors de la rehcerche", `${response}`);
         });
 }
 

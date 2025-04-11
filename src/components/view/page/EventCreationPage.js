@@ -10,7 +10,7 @@ import { saveEvent } from "../../controller/EventCreationController";
 
 export default function EventForm() {
 
-    const [token,] = useContext(myContext);
+    const [token, setToken] = useContext(myContext);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -85,8 +85,8 @@ export default function EventForm() {
         }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    function handleSubmit() {
+        console.log(token);
         if (!validateForm()) return;
 
         const jsonOutput = {
@@ -101,7 +101,7 @@ export default function EventForm() {
             owner_artist_role: formData.owner_artist_role,
         };
 
-        console.log(JSON.stringify(jsonOutput, null, 2));
+        console.log(JSON.stringify(jsonOutput));
         saveEvent(jsonOutput, token);
     };
 
@@ -246,7 +246,7 @@ export default function EventForm() {
                         </Card.Body>
                     </Card>
 
-                    <Button variant="dark" type="submit" className="mt-3">Créer l'événement</Button>
+                    <Button variant="dark" onClick={handleSubmit} className="mt-3">Créer l'événement</Button>
                 </Card.Body>
             </Card>
         </Form>

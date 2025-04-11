@@ -13,10 +13,6 @@ export default function HomePage() {
                     Connectons les âmes créatives et donnons vie aux chefs-d'œuvre de demain.
                 </p>
 
-                <div className="my-5">
-                    <Searchbar />
-                </div>
-
                 <div className="row">
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">

@@ -7,11 +7,15 @@ import { Link } from "react-router-dom";
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import { FlyToLocation } from "../MapManager";
 
-export default function SearchPage() {
+export default function SearchPage(props) {
 
     const [details, setDetails] = useState(null);
     const [events, setEvents] = useState([]);
     const [searchPosition, setSearchPosition] = useState({lat:48.866669, lng:2.33333});
+
+    useEffect(() => {
+        if (details != null) props.setBackground(details.image)
+    }, [details])
 
     function EventMarker(props) {
         const [position, setPosition] = useState([props.event.latitude, props.event.longitude])
