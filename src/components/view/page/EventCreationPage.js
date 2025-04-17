@@ -86,7 +86,6 @@ export default function EventForm() {
     };
 
     function handleSubmit() {
-        console.log(token);
         if (!validateForm()) return;
 
         const jsonOutput = {
@@ -101,7 +100,8 @@ export default function EventForm() {
             owner_artist_role: formData.owner_artist_role,
         };
 
-        console.log(JSON.stringify(jsonOutput));
+        console.log("JSON event creation:");
+        console.log(jsonOutput);
         saveEvent(jsonOutput, token);
     };
 

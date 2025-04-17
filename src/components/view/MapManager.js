@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
-import { Button, Form, InputGroup } from "react-bootstrap";
-import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from "react-leaflet";
+import { Button, Form, InputGroup, Spinner } from "react-bootstrap";
+import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { fetchAddress } from "../controller/MapController";
+import FlyToLocation from "../utils/FlyToLocation";
 
 export default function MapManager({ onAddressChange, errors }) {
 
@@ -9,14 +10,31 @@ export default function MapManager({ onAddressChange, errors }) {
     const [position, setPosition] = useState(center)
     const [inputField_text, setInputField_text] = useState("")
 
+    const [feedback, setFeedback] = useState({});
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         onAddressChange(position)
     }, [position, setPosition]);
 
     async function handleSearch() {
+        setLoading(true);
+        setFeedback({});
         const address = await fetchAddress(inputField_text);
-        setPosition({ lat: address[0].lat, lng: address[0].lon })
+        if (address.length > 0) {
+            setFeedback({ valid: "Adresse valide" })
+            setPosition({ lat: address[0].lat, lng: address[0].lon })
+        } else {
+            setFeedback({ invalid: "Adresse Invalide" })
+        }
+        setLoading(false);
     }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter' && inputField_text) {
+            handleSearch();
+        }
+    };
 
     return (
         <>
@@ -26,10 +44,20 @@ export default function MapManager({ onAddressChange, errors }) {
                     type="text"
                     value={inputField_text}
                     onChange={(e) => setInputField_text(e.target.value)}
+                    isInvalid={!!feedback.invalid}
+                    isValid={!!feedback.valid}
+                    onKeyDown={handleKeyDown}
                 />
                 <InputGroup.Text className="p-0">
-                    <Button onClick={async () => handleSearch("5 boulevard de la pépinière")} ><i className="fa-solid fa-magnifying-glass"></i></Button>
+                    <Button onClick={async () => handleSearch()} disabled={loading}>
+                        { loading ?
+                                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> :
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                        }
+                    </Button>
                 </InputGroup.Text>
+                <Form.Control.Feedback type="invalid">{feedback.invalid}</Form.Control.Feedback>
+                <Form.Control.Feedback type="valid">{feedback.valid}</Form.Control.Feedback>
             </InputGroup>
             <MapContainer
                 center={center}
@@ -81,14 +109,4 @@ export default function MapManager({ onAddressChange, errors }) {
             </Marker>
         )
     }
-}
-
-export function FlyToLocation() {
-    const map = useMap();
-
-    useEffect(() => {
-        map.locate();
-    }, [map]);
-
-    return null;
 }

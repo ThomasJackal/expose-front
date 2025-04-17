@@ -343,7 +343,7 @@ export default function EventPage(props) {
             const programation = event.programation;
 
             const formatDate = (dateString, daysToAdd) => {
-                const startDate = Date.parse(dateString.replace(/-/g, "/")); // Corrige le format pour compatibilité
+                const startDate = Date.parse(dateString.replace(/-/g, "/"));
                 const newDate = new Date(startDate);
                 newDate.setDate(newDate.getDate() + daysToAdd);
 
@@ -362,13 +362,13 @@ export default function EventPage(props) {
 
             const slotsByDate = {};
 
-            programation.slots.forEach(({ days_from_start, start_time, end_time }) => {
+            programation.slots.forEach(({ label, days_from_start, start_time, end_time }) => {
                 const dateKey = formatDate(programation.start_date, days_from_start);
 
                 if (!slotsByDate[dateKey]) {
-                    slotsByDate[dateKey] = [<b>Ouverture(s)</b>];
+                    slotsByDate[dateKey] = [<b>Activité(s)</b>];
                 }
-                slotsByDate[dateKey].push(`${formatHeure(start_time)} à ${formatHeure(end_time)}`);
+                slotsByDate[dateKey].push(`${label==""?"":label + ": "}${formatHeure(start_time)} à ${formatHeure(end_time)}`);
             });
 
 

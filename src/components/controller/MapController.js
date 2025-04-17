@@ -2,7 +2,7 @@ let lastRequestTime = new Date();
 const requestCooldown = 1000;
 
 export async function fetchAddress(address) {
-    if (!cooldownIsFinished()) return;
+    await cooldown();
 
     const openStreetMapRequest = `https://nominatim.openstreetmap.org/search?q=${address}&format=json&polygon=1&addressdetails=1`
 
@@ -13,7 +13,7 @@ export async function fetchAddress(address) {
 }
 
 export async function fetchReverseAddress(latLng) {
-    if (!cooldownIsFinished()) return;
+    await cooldown();
 
     const openStreetMapRequest = `https://nominatim.openstreetmap.org/reverse?format=xml&lat=${latLng.lat}&lon=${latLng.lng}&zoom=18&addressdetails=1`
 
@@ -23,9 +23,9 @@ export async function fetchReverseAddress(latLng) {
     return json;
 }
 
-function cooldownIsFinished() {
-    const timer = (new Date().getTime()) - (lastRequestTime.getTime());
-    if (timer < requestCooldown) return false;
+async function cooldown() {
+
+    const timer = requestCooldown - (new Date().getTime()) - (lastRequestTime.getTime());
     lastRequestTime = new Date();
-    return true;
+    if (timer > 0) await new Promise(r => setTimeout(r, timer));
 }

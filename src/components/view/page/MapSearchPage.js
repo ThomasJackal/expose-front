@@ -5,7 +5,7 @@ import { Badge, Button, Card, Carousel, Col, Container, Nav, Offcanvas, OverlayT
 import { Link } from "react-router-dom";
 
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
-import { FlyToLocation } from "../MapManager";
+import FlyToLocation from "../../utils/FlyToLocation";
 
 export default function SearchPage(props) {
 

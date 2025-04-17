@@ -30,6 +30,7 @@ const daysDifference = (date1, date2) => {
 };
 
 export default function ProgramationManager({ initialProgrammation, onChange, errors }) {
+
     const [daysData, setDaysData] = useState(() => {
         if (initialProgrammation?.slots?.length > 0 && initialProgrammation.start_date) {
             const grouped = {};
@@ -55,6 +56,7 @@ export default function ProgramationManager({ initialProgrammation, onChange, er
             const startDate = sortedDays[0].date;
             const parsedStartDate = parseDate(startDate);
             const slots = sortedDays.map(day => ({
+                label: day.label,
                 days_from_start: daysDifference(parsedStartDate, parseDate(day.date)),
                 start_time: parseTime(day.startTime),
                 end_time: parseTime(day.endTime),
@@ -99,6 +101,15 @@ export default function ProgramationManager({ initialProgrammation, onChange, er
                         </th>
                         {daysData.map((day, index) => (
                             <th key={`day-header-${index}`} style={{ width: columnWidth }}>
+                                <Form.Control
+                                    className="mb-1"
+                                    type="text"
+                                    style={{ width: '100%' }}
+                                    placeholder="Nom de l'activité"
+                                    size="sm"
+                                    value={day.label}
+                                    onChange={(e) => handleDayChange(index, 'label', e.target.value)}
+                                />
                                 <div className="d-flex align-items-center">
                                     <Form.Control
                                         type="date"

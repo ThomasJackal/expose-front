@@ -5,9 +5,6 @@ export async function getPageInfos(usernameToFetch, token) {
     const me = await getUserInfos_Token(token);
     const pageOwner = await getUserInfos_Username(usernameToFetch);
 
-    console.log(pageOwner);
-    console.log(me);
-
     return {
         exists:(pageOwner != null),
         isMyself:(me?.username == usernameToFetch),
