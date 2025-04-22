@@ -3,6 +3,7 @@ import { Button, Form, InputGroup, Spinner } from "react-bootstrap";
 import { MapContainer, Marker, TileLayer, useMapEvents } from "react-leaflet";
 import { fetchAddress } from "../controller/MapController";
 import FlyToLocation from "../utils/FlyToLocation";
+import { markerEventSelected } from "../utils/marker-icons";
 
 export default function MapManager({ onAddressChange, errors }) {
 
@@ -118,7 +119,9 @@ export default function MapManager({ onAddressChange, errors }) {
                 draggable={true}
                 eventHandlers={eventHandlers}
                 position={props.position}
-                ref={markerRef}>
+                ref={markerRef}
+                icon={markerEventSelected}
+            >
             </Marker>
         )
     }

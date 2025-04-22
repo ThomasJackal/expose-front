@@ -60,7 +60,7 @@ export default function App() {
                         className="bg-light text-dark text-end p-3 mt-4"
                         style={{ filter: 'drop-shadow(0 0 0.75rem rgba(0,0,0,0.15))' }}
                     >
-                        ArtConnect© - 2025
+                        EXPOSE© - 2025
                     </footer>
                 </div>
             </BrowserRouter>

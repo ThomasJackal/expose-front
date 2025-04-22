@@ -255,13 +255,12 @@ function Event(props) {
             <Card className="my-2">
                 <div>
                     {props.event.name}
-                    {props.event.description}
                     <div className="w-100 mt-2">
-                        <Badge bg="success">{`${props.event.distance}km`}</Badge>
+                        <Badge bg="success">{`${Math.floor(props.event.distance)} km`}</Badge>
                         <Badge bg="warning">{props.event.eventType}</Badge>
                     </div>
                 </div>
-                <img style={{ height: "8rem" }} variant="top" src={props.event.image} />
+                <img className="w-100" src={props.event.image} />
             </Card>
         </Button>
     );
@@ -272,14 +271,6 @@ function EventModal({ show, event, onClose }) {
         return null;
     }
 
-    const zoomLevel = 0.001;
-    const boundingbox = [
-        event.latitude + zoomLevel,
-        event.latitude - zoomLevel,
-        event.longitude + zoomLevel,
-        event.longitude - zoomLevel
-    ]
-
     return (
         <Modal show={show} onHide={onClose} centered>
             <Modal.Header closeButton>
@@ -287,19 +278,37 @@ function EventModal({ show, event, onClose }) {
             </Modal.Header>
             <Modal.Body>
                 {event.image && <img className="w-100 mb-3" style={{ maxHeight: '15rem', objectFit: 'cover' }} src={event.image} alt={event.name} />}
-                <p>{event.description}</p>
-                <h5>{`du ${event.start} au ${event.end}`}</h5>
-                {event.featuredArtists && event.featuredArtists.length > 0 && (
-                    <div>
-                        <strong>Artists:</strong>
-                        <ul>
-                            {event.featuredArtists.map((artist, index) => (
-                                <li key={index}>{artist.artist_displayed_name} ({artist.artist_role})</li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                <iframe className="w-100" style={{ height: "65vh" }} src={`https://www.openstreetmap.org/export/embed.html?bbox=${boundingbox[2]}%2C${boundingbox[0]}%2C${boundingbox[3]}%2C${boundingbox[1]}&amp;layer=mapnik`}></iframe>
+                <Row>
+                    <Col xs={6}>
+                        <p>{event.description}</p>
+                        <h5>{`du ${event.start} au ${event.end}`}</h5>
+                        {event.featuredArtists && event.featuredArtists.length > 0 && (
+                            <div>
+                                <strong>Artists:</strong>
+                                <ul>
+                                    {event.featuredArtists.map((artist, index) => (
+                                        <li key={index}>{artist.artist_displayed_name} ({artist.artist_role})</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                    </Col>
+                    <Col xs={6}>
+                        <MapContainer
+                            center={{ lat: event.latitude, lng: event.longitude }}
+                            zoom={16}
+                            style={{ height: "50vh", width: "100%", zIndex: 0 }}
+                        >
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <ModalMarker />
+
+                        </MapContainer>
+                    </Col>
+                </Row>
                 {event.tags && event.tags.length > 0 && (
                     <div>
                         <strong>Tags:</strong>
@@ -318,6 +327,17 @@ function EventModal({ show, event, onClose }) {
             </Modal.Footer>
         </Modal>
     );
+
+    function ModalMarker() {
+
+        return (
+            <Marker
+                position={{ lat: event.latitude, lng: event.longitude }}
+                icon={markerEvent}
+            >
+            </Marker>
+        )
+    }
 }
 /*
     const event2 = {

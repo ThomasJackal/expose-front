@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import PayementModal from "../PayementModal";
 import { myContext } from "../../..";
 import { fetchEvent } from "../../controller/EventController";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { markerEvent } from "../../utils/marker-icons";
 
 export default function EventPage(props) {
 
@@ -80,7 +82,17 @@ export default function EventPage(props) {
                                 <ProgramationBox />
                             </Col>
                             <Col xs={12} md={4}>
-                                <iframe className="w-100" style={{ height: "50vh" }} src={`https://www.openstreetmap.org/export/embed.html?bbox=${boundingbox[2]}%2C${boundingbox[0]}%2C${boundingbox[3]}%2C${boundingbox[1]}&amp;layer=mapnik`}></iframe>
+                                <MapContainer
+                                    center={{ lat: event.address.latitude, lng: event.address.longitude }}
+                                    zoom={16}
+                                    style={{ height: "50vh", width: "100%", zIndex: 0 }}
+                                >
+                                    <TileLayer
+                                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    />
+                                    <EventMarker />
+                                </MapContainer>
                                 <div className="float-end">
                                     <Button onClick={handleShowAddressDetails}>Détails d'adresse</Button>
                                 </div>
@@ -103,6 +115,17 @@ export default function EventPage(props) {
         </Row>
     );
 
+    function EventMarker() {
+
+        return (
+            <Marker
+                position={{ lat: event.address.latitude, lng: event.address.longitude }}
+                icon={markerEvent}
+            >
+            </Marker>
+        )
+    }
+
     function getCarouselImage() {
         if (event.images.length == 0) return [];
         else {
@@ -111,7 +134,7 @@ export default function EventPage(props) {
                 const element = event.images[i];
                 result.push(
                     <Carousel.Item key={i}>
-                        <img className="w-100" style={{ height: "65vh" }} src={element}></img>
+                        <img className="w-100" src={element}></img>
                     </Carousel.Item>
                 )
             }
