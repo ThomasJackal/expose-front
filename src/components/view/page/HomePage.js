@@ -1,5 +1,6 @@
 import React from "react";
 import MovingTitle from "../../utils/MovingTitle.js"
+import { Col, Row } from "react-bootstrap";
 
 export default function HomePage() {
 
@@ -13,11 +14,11 @@ export default function HomePage() {
                     Connectons les âmes créatives et donnons vie aux chefs-d'œuvre de demain.
                 </p>
 
-                <div className="row ">
+                <div className="row">
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-secondary-emphasis">
+                                <h2 className="card-title text-secondary">
                                     <i className="fas fa-calendar-alt me-2"></i> Le Pouls de l'Art Vivant
                                 </h2>
                                 <ul className="list-unstyled">
@@ -31,7 +32,7 @@ export default function HomePage() {
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-secondary-emphasis">
+                                <h2 className="card-title text-secondary">
                                     <i className="fas fa-palette me-2"></i> Votre Galerie, Votre Univers
                                 </h2>
                                 <ul className="list-unstyled">
@@ -45,7 +46,7 @@ export default function HomePage() {
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-secondary-emphasis">
+                                <h2 className="card-title text-secondary">
                                     <i className="fas fa-bullhorn me-2"></i> Rayonnez au-delà des Frontières
                                 </h2>
                                 <ul className="list-unstyled">
@@ -59,7 +60,7 @@ export default function HomePage() {
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-secondary-emphasis">
+                                <h2 className="card-title text-secondary">
                                     <i className="fas fa-hand-holding-heart me-2"></i> L'Art, Porté par la Passion
                                 </h2>
                                 <ul className="list-unstyled">

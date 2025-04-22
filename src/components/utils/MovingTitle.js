@@ -45,7 +45,7 @@ export default function MovingTitle(props) {
     }, []);
 
     return (
-        <span className="text-light"
+        <span className="text-danger"
             style={{
                 fontFamily: currentFont,
                 transition: "font-family",

@@ -1,0 +1,3 @@
+.hover-danger:hover {
+    color: #dc3545 !important; /* Bootstrap's text-danger color */
+}

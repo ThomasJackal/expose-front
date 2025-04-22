@@ -29,7 +29,7 @@ export default function App() {
         right: 0,
         bottom: 0,
         backgroundImage: `url("${background}")`,
-        filter: "blur(10vh) sepia(60%) brightness(1.5) invert(0%) contrast(40%)  brightness(1.2)",
+        filter: "blur(10vh) sepia(60%) brightness(1.5) invert(80%) contrast(40%)  brightness(1.2)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "repeat-y",
