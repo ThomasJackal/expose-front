@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import Searchbar from "../Searchbar";
+import React from "react";
+import MovingTitle from "../../utils/MovingTitle.js"
 
 export default function HomePage() {
 
     return (
         <>
             <div className="container py-5">
-                <h1 className="text-center mb-4 fw-bold text-primary">
-                    Bienvenue sur <MovingTitle>ArtConnect</MovingTitle>
+                <h1 className="text-center mb-4 fw-bold text-secondary-emphasis">
+                    Bienvenue sur <MovingTitle>EXPOSE</MovingTitle>
                 </h1>
                 <p className="text-center mb-5 text-secondary">
                     Connectons les âmes créatives et donnons vie aux chefs-d'œuvre de demain.
                 </p>
 
-                <div className="row">
+                <div className="row ">
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-primary">
+                                <h2 className="card-title text-secondary-emphasis">
                                     <i className="fas fa-calendar-alt me-2"></i> Le Pouls de l'Art Vivant
                                 </h2>
                                 <ul className="list-unstyled">
@@ -31,7 +31,7 @@ export default function HomePage() {
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-primary">
+                                <h2 className="card-title text-secondary-emphasis">
                                     <i className="fas fa-palette me-2"></i> Votre Galerie, Votre Univers
                                 </h2>
                                 <ul className="list-unstyled">
@@ -45,7 +45,7 @@ export default function HomePage() {
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-primary">
+                                <h2 className="card-title text-secondary-emphasis">
                                     <i className="fas fa-bullhorn me-2"></i> Rayonnez au-delà des Frontières
                                 </h2>
                                 <ul className="list-unstyled">
@@ -59,7 +59,7 @@ export default function HomePage() {
                     <div className="col-md-6 mb-4">
                         <div className="card shadow-lg ps-3">
                             <div className="card-body">
-                                <h2 className="card-title text-primary">
+                                <h2 className="card-title text-secondary-emphasis">
                                     <i className="fas fa-hand-holding-heart me-2"></i> L'Art, Porté par la Passion
                                 </h2>
                                 <ul className="list-unstyled">
@@ -73,64 +73,4 @@ export default function HomePage() {
             </div>
         </>
     );
-
-    function MovingTitle(props) {
-
-        const fonts = [
-            "Montserrat Underline",
-            "Bytesized",
-            "Roboto Mono",
-            "Playfair Display",
-            "DM Serif Display",
-            "Satisfy",
-            "Single Day",
-            "DM Serif Text",
-            "Monsieur La Doulaise",
-            "Funnel Sans",
-            "Barriecito",
-            "Delius",
-            "Limelight",
-            "UnifrakturCook",
-            "Alfa Slab One",
-            "Geo",
-            "Fleur De Leah",
-            "Condiment",
-            "Shadows Into Light",
-            "Rubik Glitch",
-            "Arial",
-            "Georgia",
-            "Courier New",
-            "Times New Roman",
-            "Verdana",
-            "Trebuchet MS"
-        ];
-        const [currentFont, setCurrentFont] = useState(fonts[0]);
-
-        useEffect(() => {
-            const interval = setInterval(() => {
-                setCurrentFont(prevFont => {
-                    const currentIndex = fonts.indexOf(prevFont);
-                    return fonts[(currentIndex + 1) % fonts.length];
-                });
-            }, 400);
-
-            return () => clearInterval(interval);
-        }, []);
-
-        return (
-            <span className="text-dark"
-                style={{
-                    fontFamily: currentFont,
-                    transition: "font-family",
-                    minHeight: "60px",
-                    lineHeight: "60px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    overflow: "hidden"
-                }}>
-                {props.children}
-            </span>
-        );
-    }
 }

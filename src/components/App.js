@@ -29,7 +29,10 @@ export default function App() {
         right: 0,
         bottom: 0,
         backgroundImage: `url("${background}")`,
-        filter: "blur(10vh) invert(100%) brightness(1.5)",
+        filter: "blur(10vh) sepia(60%) brightness(1.5) invert(0%) contrast(40%)  brightness(1.2)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "repeat-y",
         zIndex: -1
     };
 
@@ -38,7 +41,7 @@ export default function App() {
             <BrowserRouter style={{ position: "relative", height: "100vh" }}>
                 <div style={backgroundStyle}></div>
                 <div className="d-flex flex-column min-vh-100">
-                    <div className="mb-4"><Headerbar /></div>
+                    <Headerbar />
                     <article className="flex-grow-1">
                         <Container>
                             <Routes>
@@ -48,8 +51,8 @@ export default function App() {
                                 <Route exact path="/authenticate" element={<AuthenticatePage />} />
                                 <Route exact path="/register" element={<RegisterPage />} />
                                 <Route exact path="/event/*" element={<EventPage setBackground={setBackground} />} />
-                                <Route exact path="/user/*" element={<ProfilePage/>} />
-                                <Route exact path="/create/event" element={<EventCreationPage/>} />
+                                <Route exact path="/user/*" element={<ProfilePage />} />
+                                <Route exact path="/create/event" element={<EventCreationPage />} />
                             </Routes>
                         </Container>
                     </article>

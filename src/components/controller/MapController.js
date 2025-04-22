@@ -15,7 +15,7 @@ export async function fetchAddress(address) {
 export async function fetchReverseAddress(latLng) {
     await cooldown();
 
-    const openStreetMapRequest = `https://nominatim.openstreetmap.org/reverse?format=xml&lat=${latLng.lat}&lon=${latLng.lng}&zoom=18&addressdetails=1`
+    const openStreetMapRequest = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latLng.lat}&lon=${latLng.lng}&zoom=18&addressdetails=1`
 
     const response = await fetch(openStreetMapRequest);
     const json = await response.json()

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Searchbar from "../Searchbar";
+import Searchbar from "../../Searchbar";
 import { Badge, Button, Card, Col, Nav, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

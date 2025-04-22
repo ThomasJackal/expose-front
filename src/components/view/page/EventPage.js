@@ -57,15 +57,8 @@ export default function EventPage(props) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <h4><b>Ligne 1</b></h4>
                     <h5>{event.address.firstLine}</h5>
-                    <h4><b>Ligne 2</b></h4>
-                    <h5>{event.address.secondLine}</h5>
-                    <h4><b>Code postal</b></h4>
-                    <h5>{event.address.postalCode}</h5>
-                    <h4><b>Ville</b></h4>
-                    <h5>{event.address.city}</h5>
-
+                    <h5>{`${event.address.city}, ${event.address.postalCode}`}</h5>
                 </Modal.Body>
             </Modal>
 
@@ -316,7 +309,7 @@ export default function EventPage(props) {
                             overlay={renderTooltip}
                         >
                             <div className="float-end">
-                                <Button onClick={handleShowReservationDetails} disabled={token == null || articles.length == 0 }>Réserver ces billets</Button>
+                                <Button onClick={handleShowReservationDetails} disabled={token == null || articles.length == 0}>Réserver ces billets</Button>
                             </div>
                         </OverlayTrigger>
                     </Form>
@@ -368,7 +361,7 @@ export default function EventPage(props) {
                 if (!slotsByDate[dateKey]) {
                     slotsByDate[dateKey] = [<b>Activité(s)</b>];
                 }
-                slotsByDate[dateKey].push(`${label==""?"":label + ": "}${formatHeure(start_time)} à ${formatHeure(end_time)}`);
+                slotsByDate[dateKey].push(`${label == "" || label == null ? "" : label + ": "}${formatHeure(start_time)} à ${formatHeure(end_time)}`);
             });
 
 

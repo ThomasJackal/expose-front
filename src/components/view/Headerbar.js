@@ -52,7 +52,8 @@ export default function Headerbar() {
     }
 
     function isConnected() {
-        return token != "";
+        if (token == "" || token == "null") return false;
+        return true;
     }
 
     function disconnect() {
@@ -61,17 +62,13 @@ export default function Headerbar() {
 
     return (
         <Navbar
-            className='p-0 sticky-top'
+            className='sticky-top mb-4 pb-3 pt-4'
             collapseOnSelect="true"
-            bg='black'
-            variant='dark'
+            bg='light'
+            variant='light'
             sticky='top'
             style={{
-                backgroundImage: `url("/pictures/blank-grained-and-scratched-film-strip-texture-background-with-heavy-grain-dust-and-a-light-leak-real-lens-flare-shot-in-studio-over-black-background-free-photo.jpg")`,
                 width: "100%",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
                 filter: 'drop-shadow(0 0 0.75rem black)',
                 zIndex: 100
             }}
@@ -79,9 +76,9 @@ export default function Headerbar() {
             <Container>
                 <Nav>
                     <Nav.Link as={Link} eventKey='0' to="/home">
-                        <Navbar.Brand>
-                            <img className="ms-5" style={{ height: "2rem" }} src="/pictures/logo.svg"></img>
-                            <label className="text-black ms-1 d-none d-lg-inline" style={{ fontFamily: getFont() }}>Art Connect</label>
+                        <Navbar.Brand >
+                            <img className="ms-5" style={{ height: "3rem", marginTop:"-1.5rem", marginBottom:"-1rem", marginRight:"-0.7rem" }} src="/pictures/EXPOSE_logo.png"></img>
+                            <label className="text-black ms-1 d-none d-lg-inline" style={{ fontFamily: getFont(), fontSize:"1.5rem", marginTop:"-1.5rem" }}>EXPOSE</label>
                         </Navbar.Brand>
                     </Nav.Link>
                 </Nav>
@@ -114,7 +111,7 @@ export default function Headerbar() {
             <div className="text-light">
                 <div className="d-none d-md-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
                 <Button variant="transparent" className="m-0 p-0 ms-auto me-4">
-                    <i className='fa fa-bell mx-1 text-light'></i>
+                    <i className='fa fa-bell mx-1 text-dark'></i>
                     <Badge bg="danger">1</Badge>
                 </Button>
             </div>
