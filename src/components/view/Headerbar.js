@@ -103,9 +103,9 @@ export default function Headerbar() {
                 <div
                     className="mx-auto"
                     style={{
-                        position: 'absolute', // Take it out of the normal flow
+                        position: 'absolute',
                         left: '50%',
-                        transform: 'translateX(-65%)', // Center it horizontally
+                        transform: 'translateX(-65%)'
                     }}
                 >
                     <Nav>
@@ -114,7 +114,7 @@ export default function Headerbar() {
                                 className="ms-5"
                                 style={{ height: "5rem", marginTop: "-2.5rem", marginBottom: "-2rem" }}
                                 src="/pictures/EXPOSE_logo.png"
-                                alt="Logo" // Add alt text for accessibility
+                                alt="Logo"
                             />
                         </Nav.Link>
                     </Nav>
@@ -123,11 +123,11 @@ export default function Headerbar() {
                 <Nav className="ms-auto">
                     <Nav.Link as={Link} eventKey='0' to="/home" className="hover-danger">
                         <i className='fa fa-home me-2'></i>
-                        <div className="d-none d-md-inline">Accueil</div>
+                        <div className="d-none d-lg-inline">Accueil</div>
                     </Nav.Link>
                     <Nav.Link as={Link} eventKey='1' to="/search" className="hover-danger">
                         <i className="fa-solid fa-magnifying-glass me-2"></i>
-                        <div className="d-none d-md-inline">Rechercher</div>
+                        <div className="d-none d-lg-inline">Rechercher</div>
                     </Nav.Link>
                     <Nav.Link
                         as={Link}
@@ -137,11 +137,11 @@ export default function Headerbar() {
                         className="hover-danger"
                     >
                         <i className='fa fa-user me-2'></i>
-                        <div className="d-none d-md-inline">Profil</div>
+                        <div className="d-none d-lg-inline">Profil</div>
                     </Nav.Link>
                     <Nav.Link as={Link} eventKey='5' to="/authenticate" hidden={isConnected()} className="hover-danger">
                         <i className='fa fa-key me-2'></i>
-                        <div className="d-none d-md-inline">Connexion</div>
+                        <div className="d-none d-lg-inline">Connexion</div>
                     </Nav.Link>
                     <Nav.Link
                         as={Link}
@@ -151,12 +151,12 @@ export default function Headerbar() {
                         className="hover-danger"
                     >
                         <i className='fa fa-unlock me-2'></i>
-                        <div className="d-none d-md-inline">Déconnexion</div>
+                        <div className="d-none d-lg-inline">Déconnexion</div>
                     </Nav.Link>
                 </Nav>
             </Container>
             <div className="text-light">
-                <div className="d-none d-md-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
+                <div className="d-none d-lg-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
                 <Button variant="transparent" className="m-0 p-0 ms-auto me-4">
                     <i className='fa fa-bell mx-1 text-dark'></i>
                     <Badge bg="danger">1</Badge>
@@ -194,31 +194,31 @@ export default function Headerbar() {
                 <Nav>
                     <Nav.Link as={Link} eventKey='0' to="/home">
                         <i className='fa fa-home me-2'></i>
-                        <div className="d-none d-md-inline">Accueil</div>
+                        <div className="d-none d-lg-inline">Accueil</div>
                     </Nav.Link>
                     <Nav.Link as={Link} eventKey='1' to="/search">
                         <i className="fa-solid fa-magnifying-glass me-2"></i>
-                        <div className="d-none d-md-inline">Rechercher</div>
+                        <div className="d-none d-lg-inline">Rechercher</div>
                     </Nav.Link>
 
                     <Nav.Link as={Link} eventKey='2' to={`/user/?username=${userInfos == null ? "" : userInfos.username}`} hidden={!isConnected()}>
                         <i className='fa fa-user me-2'></i>
-                        <div className="d-none d-md-inline">Profil</div>
+                        <div className="d-none d-lg-inline">Profil</div>
                     </Nav.Link>
                     <Nav.Link as={Link} eventKey='5' to="/authenticate" hidden={isConnected()}>
                         <i className='fa fa-key me-2'></i>
-                        <div className="d-none d-md-inline">Connexion</div>
+                        <div className="d-none d-lg-inline">Connexion</div>
                     </Nav.Link>
                     <Nav.Link as={Link} eventKey='6' hidden={!isConnected()} onClick={() => {
                         disconnect();
                     }}>
                         <i className='fa fa-unlock me-2'></i>
-                        <div className="d-none d-md-inline">Déconnexion</div>
+                        <div className="d-none d-lg-inline">Déconnexion</div>
                     </Nav.Link>
                 </Nav>
             </Container>
             <div className="text-light">
-                <div className="d-none d-md-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
+                <div className="d-none d-lg-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
                 <Button variant="transparent" className="m-0 p-0 ms-auto me-4">
                     <i className='fa fa-bell mx-1 text-dark'></i>
                     <Badge bg="danger">1</Badge>

@@ -22,10 +22,6 @@ export default function EventPage(props) {
     const handleCloseReservationDetails = () => setShowReservationDetails(false);
     const handleShowReservationDetails = () => setShowReservationDetails(true);
 
-    useEffect(() => {
-        if (event != null && event.images.length > 0) props.setBackground(event.images[0]);
-    }, []);
-
     if (event == null) {
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -40,6 +36,10 @@ export default function EventPage(props) {
             </div>
         );
     }
+
+    console.log(event)
+
+    if (event != null && event.images.length > 0) props.setBackground(event.images[0]);
 
     const zoomLevel = 0.001;
     const boundingbox = [
@@ -70,9 +70,10 @@ export default function EventPage(props) {
 
             <Col xs={11}>
                 <Card className="sticky-top" style={{ top: "20vh", zIndex: 0 }}>
-                    <Carousel>
+                    {event.images.length==0?<a/>:<Carousel>
                         {getCarouselImage()}
-                    </Carousel>
+                    </Carousel>}
+                    
                     <Card.Body>
                         <Row>
                             <Col xs={12} md={8}>
@@ -316,7 +317,7 @@ export default function EventPage(props) {
                 return (<Tooltip {...props_tootip}>
                     Vous devez être connecté pour réserver un billet !
                 </Tooltip>);
-            } else return (<></>);
+            } else return (<div></div>);
         }
 
 

@@ -13,13 +13,14 @@ export async function saveEvent(event, token) {
 
     console.log(requestOptions);
 
-    fetch(`${getBackUrl()}/a/event/create`, requestOptions)
-        .then(response => response.ok ? response.json() : Promise.reject(response))
-        .then(json => {
-            return true
-        })
-        .catch(response => {
-            console.error("Une erreur s'est produite lors de la création de l'évènement", `${response} (error:${response.error})`);
-            return false
-        });
+    const response = await fetch(`${getBackUrl()}/a/event/create`, requestOptions)
+    if (response.ok) {
+        const json = await response.json();
+        console.log("oui")
+        return json.id;
+
+    } else {
+        console.error("Une erreur s'est produite lors de la création de l'évènement", `${response} (error:${response.error})`);
+        return false;
+    }
 }

@@ -7,8 +7,12 @@ import MapManager from "../MapManager";
 import TagManager from "../TagManager";
 import { myContext } from "../../..";
 import { saveEvent } from "../../controller/EventCreationController";
+import { useNavigate } from "react-router-dom";
+import { getUserInfos_Token } from "../../../utils/identificationUtils";
 
 export default function EventForm() {
+
+    const navigate = useNavigate();
 
     const [token, setToken] = useContext(myContext);
 
@@ -69,8 +73,8 @@ export default function EventForm() {
         setFormData(prevData => ({
             ...prevData,
             address: {
-                latitude:addressData.lat,
-                longitude:addressData.lng
+                latitude: addressData.lat,
+                longitude: addressData.lng
             },
         }));
     }, []);
@@ -85,7 +89,7 @@ export default function EventForm() {
         }));
     };
 
-    function handleSubmit() {
+    async function handleSubmit() {
         if (!validateForm()) return;
 
         const jsonOutput = {
@@ -93,16 +97,18 @@ export default function EventForm() {
             description: formData.description,
             programation: formData.programation,
             eventType: formData.eventType,
-            billetterie: formData.billetterie.enabled ? formData.billetterie : null,
+            ticketing: formData.billetterie.enabled ? formData.billetterie : null,
             address: formData.address,
             tags: formData.tags,
             images: formData.images,
             owner_artist_role: formData.owner_artist_role,
         };
 
-        console.log("JSON event creation:");
-        console.log(jsonOutput);
-        saveEvent(jsonOutput, token);
+        const result = await saveEvent(jsonOutput, token);
+        console.log(result);
+        if (result != false) {
+            navigate(`/event/?id=${result}`)
+        }
     };
 
     const validateForm = () => {

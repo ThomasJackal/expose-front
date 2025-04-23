@@ -14,7 +14,6 @@ import { myContext } from "..";
 import ProfilePage from "./view/page/ProfilePage";
 
 export default function App() {
-
     const [background, setBackground] = useState("/pictures/background.jpg");
     const [token, setToken] = useState(sessionStorage.getItem("token"));
 
@@ -23,13 +22,13 @@ export default function App() {
     }, [token]);
 
     var backgroundStyle = {
-        position: "absolute",
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
         backgroundImage: `url("${background}")`,
-        filter: "blur(10vh) sepia(60%) brightness(1.5) invert(80%) contrast(40%)  brightness(1.2)",
+        filter: "blur(10vh) sepia(60%) brightness(1.5) invert(80%) contrast(40%) brightness(1.2)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "repeat-y",
@@ -40,7 +39,7 @@ export default function App() {
         <myContext.Provider value={[token, setToken]}>
             <BrowserRouter style={{ position: "relative", height: "100vh" }}>
                 <div style={backgroundStyle}></div>
-                <div className="d-flex flex-column min-vh-100">
+                <div className="d-flex flex-column min-vh-100" style={{ position: "relative" }}>
                     <Headerbar />
                     <article className="flex-grow-1">
                         <Container>
@@ -61,6 +60,10 @@ export default function App() {
                         style={{ filter: 'drop-shadow(0 0 0.75rem rgba(0,0,0,0.15))' }}
                     >
                         EXPOSE© - 2025
+                        <small>
+                            <br />
+                            <br />Gérer les cookies - Vie privée & Cookies - Accessibilité - Condition générales - Mentions légales
+                        </small>
                     </footer>
                 </div>
             </BrowserRouter>
