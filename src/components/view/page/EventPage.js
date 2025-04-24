@@ -313,7 +313,7 @@ export default function EventPage(props) {
         }
 
         function renderTooltip(props_tootip) {
-            if (token == null) {
+            if (token == "" || token == "null") {
                 return (<Tooltip {...props_tootip}>
                     Vous devez être connecté pour réserver un billet !
                 </Tooltip>);
@@ -333,7 +333,7 @@ export default function EventPage(props) {
                             overlay={renderTooltip}
                         >
                             <div className="float-end">
-                                <Button onClick={handleShowReservationDetails} disabled={token == null || articles.length == 0}>Réserver ces billets</Button>
+                                <Button onClick={handleShowReservationDetails} disabled={token == "" || token == "null" || articles.length == 0}>Réserver ces billets</Button>
                             </div>
                         </OverlayTrigger>
                     </Form>

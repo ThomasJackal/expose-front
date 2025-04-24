@@ -1,3 +1,34 @@
 .hover-danger:hover {
-    color: #dc3545 !important; /* Bootstrap's text-danger color */
+    color: #dc3545 !important;
+    /* Bootstrap's text-danger color */
+}
+
+.expose-title {
+    transition: transform 0.5s ease-in-out;
+}
+
+.expose-title:hover {
+    transform: rotate(-5deg);
+}
+
+.user-greeting {
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.user-greeting:hover {
+    transform: translateY(-2px);
+}
+
+.notification-bell {
+    animation: ring 2s infinite ease-in-out;
+}
+
+@keyframes ring {
+    0% { transform: rotate(0); }
+    15% { transform: rotate(15deg); }
+    30% { transform: rotate(-15deg); }
+    45% { transform: rotate(5deg); }
+    60% { transform: rotate(-5deg); }
+    75% { transform: rotate(0); }
+    100% { transform: rotate(0); }
 }

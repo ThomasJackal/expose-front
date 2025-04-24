@@ -39,22 +39,19 @@ export default function MovingTitle(props) {
                 const currentIndex = fonts.indexOf(prevFont);
                 return fonts[(currentIndex + 1) % fonts.length];
             });
-        }, 400);
+        }, 300);
 
         return () => clearInterval(interval);
     }, []);
 
     return (
-        <span className="text-danger"
+        <span
             style={{
                 fontFamily: currentFont,
                 transition: "font-family",
                 minHeight: "60px",
                 lineHeight: "60px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                overflow: "hidden"
+                display: "flex"
             }}>
             {props.children}
         </span>

@@ -105,9 +105,9 @@ export default function RegisterPage() {
 
     return (
         <Form onSubmit={handleSubmit} className="d-flex justify-content-center mt-5">
-            <Card style={{ width: '25rem' }}>
+            <Card style={{ width: '50rem' }}>
+                <Card.Header as="h3" className="bg-dark text-light">Nouvel utilisateur</Card.Header>
                 <Card.Body>
-                    <Card.Title>Nouvel utilisateur</Card.Title>
                     <div>
                         <Form.Group className="mb-3" controlId="formGroupEmail">
                             <Form.Label>Email</Form.Label>

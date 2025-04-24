@@ -35,8 +35,8 @@ export default function LoginPage() {
     return (
         <Form onSubmit={handleSubmit} className="d-flex justify-content-center mt-5">
             <Card style={{ width: '25rem' }}>
+                <Card.Header as="h3" className="bg-dark text-light">Connexion</Card.Header>
                 <Card.Body>
-                    <Card.Title>Connexion</Card.Title>
                     <div>
                         <Form.Group className="mb-3" controlId="formGroupLogin">
                             <Form.Label>Nom d'utilisateur</Form.Label>
@@ -63,7 +63,7 @@ export default function LoginPage() {
                         <Button variant="dark" type="submit">Se connecter</Button>
                         <Nav>
                             <Nav.Link as={Link} eventKey='1' to="/register">
-                                <small className="link-info">Créer un nouveau compte</small>
+                                <small className="link-danger">Créer un nouveau compte</small>
                             </Nav.Link>
                         </Nav>
                     </div>

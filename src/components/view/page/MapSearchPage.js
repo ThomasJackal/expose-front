@@ -4,11 +4,12 @@ import Searchbar from "../Searchbar";
 import { Badge, Button, Card, Carousel, Col, Container, Form, InputGroup, Modal, Nav, Offcanvas, OverlayTrigger, Row, Spinner, Table, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
+import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import FlyToLocation from "../../utils/FlyToLocation";
 import { fetchAddress } from "../../controller/MapController";
 import { search } from "../../controller/SearchController";
 import { markerEvent, markerEventSelected, markerPosition } from "../../utils/marker-icons";
+import SearchBar from "../../SearchBar";
 
 export default function SearchPage(props) {
 
@@ -82,7 +83,7 @@ export default function SearchPage(props) {
     };
 
     return (
-        <span className="p-0 w-100" style={{
+        <Row className="p-0 w-100" style={{
             position: "absolute",
             top: "5rem",
             left: 0,
@@ -94,9 +95,9 @@ export default function SearchPage(props) {
                 }
             }}
         >
-            <Row className="w-100 ms-0">
-                <Col>
-                    <InputGroup className="my-4">
+            <Col xs={4} md={6} lg={8} className="px-md-5 my-3" >
+                <Row className="bg-black py-5 px-0 px-md-5">
+                    <InputGroup>
                         <Form.Control
                             type="text"
                             value={inputField_text}
@@ -104,28 +105,27 @@ export default function SearchPage(props) {
                             isInvalid={!!feedback.invalid}
                             isValid={!!feedback.valid}
                             onKeyDown={handleKeyDown}
+                            placeholder="Rechercher..."
                         />
-                        <InputGroup.Text className="p-0">
-                            <Button onClick={async () => handleSearch()} disabled={loading} variant="secondary">
-                                {loading ?
-                                    <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> :
-                                    <i className="fa-solid fa-magnifying-glass"></i>
-                                }
-                            </Button>
-                        </InputGroup.Text>
-                        <Form.Control.Feedback type="invalid">{feedback.invalid}</Form.Control.Feedback>
-                        <Form.Control.Feedback type="valid">{feedback.valid}</Form.Control.Feedback>
+                        <Button onClick={async () => handleSearch()} disabled={loading} variant="danger">
+                            {loading ?
+                                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> :
+                                <i className="fa-solid fa-magnifying-glass"></i>
+                            }
+                        </Button>
                     </InputGroup>
-                    <hr />
-                    <div
-                        style={{
-                            maxHeight: "calc(100vh - 14.5rem)",
-                            overflowY: "auto",
-                            overflowX: "hidden"
-                        }}
+                </Row>
+
+                <Row className="bg-white">
+                    <Row style={{
+                        maxHeight: "calc(100vh - 20.9rem)",
+                        overflowY: "auto",
+                        overflowX: "hidden"
+                    }}
                     >
-                        <Row>
-                            {events.map((event, i) => (
+                        {events.length == 0 ?
+                            <div className="text-center">Aucuns événement n'a été trouvé :(</div>
+                            : events.map((event, i) => (
                                 <Col xs={12} md={6} xl={3} key={i}>
                                     <Event
                                         event={event}
@@ -135,48 +135,49 @@ export default function SearchPage(props) {
                                     />
                                 </Col>
                             ))}
-                        </Row>
-                    </div>
-                </Col>
-                <Col xs={8} md={6} lg={4} className="p-0">
-                    <MapContainer
-                        center={center}
-                        zoom={13}
-                        style={{ height: "calc(100vh - 8.5rem)", width: "100%", zIndex: 0 }}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <FlyToLocation />
-                        <DraggableMarker position={position} setPosition={setPosition} />
-                        {events.map((event, i) => (
-                            <EventMarker
-                                key={i}
-                                event={event}
-                                onClick={handleEventClick}
-                                isHovered={hoveredEventId === event.id}
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
-                            />
-                        ))}
+                    </Row>
+                </Row>
+            </Col>
 
-                    </MapContainer>
-                    <h6
-                        className="m-1 text-light"
-                        style={{
-                            position: "absolute",
-                            bottom: 0,
-                            textShadow: "0 0 0.1rem black,0 0 0.2rem black,0 0 0.3rem black"
-                        }}
-                    >
-                        <small>lat: {position.lat}<br />lng: {position.lng}</small>
-                    </h6>
-                </Col>
-            </Row>
+            <Col xs={8} md={6} lg={4} className="p-0" style={{ position: "absolute", right: "-10px" }}>
+                <MapContainer
+                    center={center}
+                    zoom={13}
+                    style={{ height: "calc(100vh - 11.5rem)", width: "100%", zIndex: 0 }}
+                >
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <FlyToLocation />
+                    <DraggableMarker position={position} setPosition={setPosition} />
+                    {events.map((event, i) => (
+                        <EventMarker
+                            key={i}
+                            event={event}
+                            onClick={handleEventClick}
+                            isHovered={hoveredEventId === event.id}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            userPosition={position}
+                        />
+                    ))}
+
+                </MapContainer>
+                <h6
+                    className="m-1 text-light"
+                    style={{
+                        position: "absolute",
+                        bottom: 0,
+                        textShadow: "0 0 0.1rem black,0 0 0.2rem black,0 0 0.3rem black"
+                    }}
+                >
+                    <small>lat: {position.lat}<br />lng: {position.lng}</small>
+                </h6>
+            </Col>
 
             <EventModal show={showModal} event={selectedEvent} onClose={handleCloseModal} />
-        </span>
+        </Row>
     );
 
 }
@@ -222,6 +223,14 @@ function DraggableMarker(props) {
 function EventMarker(props) {
     const [position, setPosition] = useState([props.event.latitude, props.event.longitude])
 
+    const map = useMap();
+
+    useEffect(() => {
+
+        if (props.isHovered) map.flyTo(position, map.getZoom())
+
+    }, [props.isHovered])
+
     return position === null ? null : (
         <Marker
             position={position}
@@ -252,7 +261,7 @@ function Event(props) {
             onMouseEnter={() => props.onMouseEnter(props.event.id)}
             onMouseLeave={props.onMouseLeave}
         >
-            <Card className="my-2">
+            <Card className="my-2 bg-dark text-light">
                 <div>
                     {props.event.name}
                     <div className="w-100 mt-2">
@@ -272,7 +281,7 @@ function EventModal({ show, event, onClose }) {
     }
 
     return (
-        <Modal show={show} onHide={onClose} centered>
+        <Modal show={show} onHide={onClose} centered size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>{event.name}</Modal.Title>
             </Modal.Header>

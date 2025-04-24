@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { myContext } from "../..";
 import { getUserInfos_Token } from "../../utils/identificationUtils";
 import { Image } from 'react-bootstrap';
+import SearchBar from "../SearchBar";
+import ProfileOffCanvas from "../ProfileOffcanvas";
 
 export default function Headerbar() {
 
@@ -30,7 +32,17 @@ export default function Headerbar() {
             "°❀⋆.ೃ࿔*:･",
             "₍^. .^₎⟆",
             "(๑ᵔ⤙ᵔ๑)",
-            "(╥﹏╥)"
+            "(╥﹏╥)",
+            "૮₍ ´• ˕ •` ₎ა",
+            "(っ˘з(˘⌣˘ )",
+            "꒰ঌ( ˶'ᵕ'˶)໒꒱",
+            "(｡•ᴗ•｡)♡",
+            "☆*: .｡. o(≧▽≦)o .｡.:*☆",
+            "(๑˃̵ᴗ˂̵)ﻭ",
+            "(≧◡≦) ♡",
+            "(⌯͒• ɪ •⌯͒)",
+            "ฅ^•ﻌ•^ฅ",
+            "(ᐢ⸝⸝•ᴗ•⸝⸝ᐢ)"
         ];
         return emoji[Math.floor(Math.random() * emoji.length)];
     }
@@ -94,10 +106,14 @@ export default function Headerbar() {
         >
             <Container>
                 <Nav className="me-auto">
-                    <label className="text-black" style={{ fontFamily: getFont(), fontSize: "1.5rem" }}>
-                        EXPOSE /
-                    </label>
-                    <small className="text-danger mt-2">{" " + getEmoji()}</small>
+                    <Nav.Link as={Link} eventKey='0' to="/home" className="hover-danger">
+                        <i className='fa fa-home fa-lg'>
+                            <label className="text-black" style={{ fontFamily: getFont(), fontSize: "1.5rem" }}>
+                                . EX⦁POSE/
+                            </label>
+                            <small className="text-danger mt-2">{" " + getEmoji()}</small>
+                        </i>
+                    </Nav.Link>
                 </Nav>
 
                 <div
@@ -111,7 +127,7 @@ export default function Headerbar() {
                     <Nav>
                         <Nav.Link as={Link} eventKey='0' to="/home">
                             <img
-                                className="ms-5"
+                                className="ms-5 expose-title"
                                 style={{ height: "5rem", marginTop: "-2.5rem", marginBottom: "-2rem" }}
                                 src="/pictures/EXPOSE_logo.png"
                                 alt="Logo"
@@ -121,109 +137,13 @@ export default function Headerbar() {
                 </div>
 
                 <Nav className="ms-auto">
-                    <Nav.Link as={Link} eventKey='0' to="/home" className="hover-danger">
-                        <i className='fa fa-home me-2'></i>
-                        <div className="d-none d-lg-inline">Accueil</div>
-                    </Nav.Link>
-                    <Nav.Link as={Link} eventKey='1' to="/search" className="hover-danger">
+                    <Nav.Link as={Link} eventKey='1' to="/search" className="hover-danger user-greeting">
                         <i className="fa-solid fa-magnifying-glass me-2"></i>
                         <div className="d-none d-lg-inline">Rechercher</div>
                     </Nav.Link>
-                    <Nav.Link
-                        as={Link}
-                        eventKey='2'
-                        to={`/user/?username=${userInfos == null ? "" : userInfos.username}`}
-                        hidden={!isConnected()}
-                        className="hover-danger"
-                    >
-                        <i className='fa fa-user me-2'></i>
-                        <div className="d-none d-lg-inline">Profil</div>
-                    </Nav.Link>
-                    <Nav.Link as={Link} eventKey='5' to="/authenticate" hidden={isConnected()} className="hover-danger">
-                        <i className='fa fa-key me-2'></i>
-                        <div className="d-none d-lg-inline">Connexion</div>
-                    </Nav.Link>
-                    <Nav.Link
-                        as={Link}
-                        eventKey='6'
-                        hidden={!isConnected()}
-                        onClick={() => { disconnect(); }}
-                        className="hover-danger"
-                    >
-                        <i className='fa fa-unlock me-2'></i>
-                        <div className="d-none d-lg-inline">Déconnexion</div>
-                    </Nav.Link>
                 </Nav>
             </Container>
-            <div className="text-light">
-                <div className="d-none d-lg-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
-                <Button variant="transparent" className="m-0 p-0 ms-auto me-4">
-                    <i className='fa fa-bell mx-1 text-dark'></i>
-                    <Badge bg="danger">1</Badge>
-                </Button>
-            </div>
-        </Navbar>
-    );
-
-
-    return (
-        <Navbar
-            className='sticky-top mb-4 pb-3 pt-4 justify-content-center'
-            collapseOnSelect="true"
-            bg='light'
-            variant='light'
-            sticky='top'
-            style={{
-                width: "100%",
-                filter: 'drop-shadow(0 0 0.75rem black)',
-                zIndex: 100
-            }}
-        >
-            <Container>
-                <Nav>
-                    <Nav.Link as={Link} eventKey='0' to="/home">
-                        <Navbar.Brand>
-                            <img className="ms-5" style={{ height: "5rem", marginTop: "-2.5rem", marginBottom: "-2rem" }} src="/pictures/EXPOSE_logo.png"></img>
-                            <label className="text-black ms-1 d-none d-lg-inline" style={{ fontFamily: getFont(), fontSize: "1.5rem", marginTop: "-1.5rem" }}>
-                                EXPOSE
-                                <span className="ms-4 text-danger">{getEmoji()}</span>
-                            </label>
-                        </Navbar.Brand>
-                    </Nav.Link>
-                </Nav>
-                <Nav>
-                    <Nav.Link as={Link} eventKey='0' to="/home">
-                        <i className='fa fa-home me-2'></i>
-                        <div className="d-none d-lg-inline">Accueil</div>
-                    </Nav.Link>
-                    <Nav.Link as={Link} eventKey='1' to="/search">
-                        <i className="fa-solid fa-magnifying-glass me-2"></i>
-                        <div className="d-none d-lg-inline">Rechercher</div>
-                    </Nav.Link>
-
-                    <Nav.Link as={Link} eventKey='2' to={`/user/?username=${userInfos == null ? "" : userInfos.username}`} hidden={!isConnected()}>
-                        <i className='fa fa-user me-2'></i>
-                        <div className="d-none d-lg-inline">Profil</div>
-                    </Nav.Link>
-                    <Nav.Link as={Link} eventKey='5' to="/authenticate" hidden={isConnected()}>
-                        <i className='fa fa-key me-2'></i>
-                        <div className="d-none d-lg-inline">Connexion</div>
-                    </Nav.Link>
-                    <Nav.Link as={Link} eventKey='6' hidden={!isConnected()} onClick={() => {
-                        disconnect();
-                    }}>
-                        <i className='fa fa-unlock me-2'></i>
-                        <div className="d-none d-lg-inline">Déconnexion</div>
-                    </Nav.Link>
-                </Nav>
-            </Container>
-            <div className="text-light">
-                <div className="d-none d-lg-inline">{isConnected() && userInfos != null ? userInfos.username : ""}</div>
-                <Button variant="transparent" className="m-0 p-0 ms-auto me-4">
-                    <i className='fa fa-bell mx-1 text-dark'></i>
-                    <Badge bg="danger">1</Badge>
-                </Button>
-            </div>
+            <ProfileOffCanvas isConnected={isConnected()} userInfos={userInfos} disconnect={disconnect} />
         </Navbar>
     );
 }
