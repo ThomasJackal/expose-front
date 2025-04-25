@@ -40,6 +40,8 @@ export default function MapManager({ onAddressChange, errors }) {
     return (
         <>
             <h5>Localisation</h5>
+            <Form.Control.Feedback type="invalid">{feedback.invalid}</Form.Control.Feedback>
+            <Form.Control.Feedback type="valid">{feedback.valid}</Form.Control.Feedback>
             <InputGroup className="mb-3">
                 <Form.Control
                     type="text"
@@ -49,16 +51,12 @@ export default function MapManager({ onAddressChange, errors }) {
                     isValid={!!feedback.valid}
                     onKeyDown={handleKeyDown}
                 />
-                <InputGroup.Text className="p-0">
-                    <Button onClick={async () => handleSearch()} disabled={loading}>
-                        {loading ?
-                            <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> :
-                            <i className="fa-solid fa-magnifying-glass"></i>
-                        }
-                    </Button>
-                </InputGroup.Text>
-                <Form.Control.Feedback type="invalid">{feedback.invalid}</Form.Control.Feedback>
-                <Form.Control.Feedback type="valid">{feedback.valid}</Form.Control.Feedback>
+                <Button variant="danger" onClick={async () => handleSearch()} disabled={loading}>
+                    {loading ?
+                        <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> :
+                        <i className="fa-solid fa-magnifying-glass"></i>
+                    }
+                </Button>
             </InputGroup>
             <div style={{ position: "relative" }}>
                 <MapContainer

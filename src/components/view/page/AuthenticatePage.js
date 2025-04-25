@@ -35,7 +35,7 @@ export default function LoginPage() {
     return (
         <Form onSubmit={handleSubmit} className="d-flex justify-content-center mt-5">
             <Card style={{ width: '25rem' }}>
-                <Card.Header as="h3" className="bg-dark text-light">Connexion</Card.Header>
+                <Card.Header as="h3" className="bg-black text-light">Connexion</Card.Header>
                 <Card.Body>
                     <div>
                         <Form.Group className="mb-3" controlId="formGroupLogin">

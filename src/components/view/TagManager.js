@@ -54,7 +54,7 @@ export default function TagManager(props) {
 
         return (
             <Button variant="transparent" onClick={toggle} className="p-0">
-                <Badge bg={selected ? "warning" : "secondary"}>
+                <Badge bg={selected ? "danger" : "secondary"}>
                     {props.children}
                 </Badge>
             </Button>

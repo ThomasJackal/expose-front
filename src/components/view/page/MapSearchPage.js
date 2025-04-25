@@ -119,12 +119,23 @@ export default function SearchPage(props) {
                 <Row className="bg-white">
                     <Row style={{
                         maxHeight: "calc(100vh - 20.9rem)",
+                        minHeight: "calc(100vh - 21.9rem)",
                         overflowY: "auto",
                         overflowX: "hidden"
                     }}
                     >
                         {events.length == 0 ?
-                            <div className="text-center">Aucuns événement n'a été trouvé :(</div>
+                            <div className="text-center mt-5">
+                                Aucuns événement n'a été trouvé :(
+                                <br/>
+                                <img
+                                className="mt-5"
+                                style={{ height: "10rem",opacity: "0.08" }}
+                                src="/pictures/EXPOSE_logo_sad.png"
+                                alt="Logo"
+                            />
+                            </div>
+                            
                             : events.map((event, i) => (
                                 <Col xs={12} md={6} xl={3} key={i}>
                                     <Event

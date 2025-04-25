@@ -106,33 +106,38 @@ export default function RegisterPage() {
     return (
         <Form onSubmit={handleSubmit} className="d-flex justify-content-center mt-5">
             <Card style={{ width: '50rem' }}>
-                <Card.Header as="h3" className="bg-dark text-light">Nouvel utilisateur</Card.Header>
+                <Card.Header as="h3" className="bg-black text-light">Nouvel utilisateur</Card.Header>
                 <Card.Body>
-                    <div>
-                        <Form.Group className="mb-3" controlId="formGroupEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="Email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                isInvalid={!!errors.email}
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formGroupLogin">
-                            <Form.Label>Nom d'utilisateur</Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="Login"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleChange}
-                                isInvalid={!!errors.username}
-                            />
-                            <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
-                        </Form.Group>
-
+                    <Row>
+                        <Col xs={12} sm={6}>
+                            <Form.Group className="mb-3" controlId="formGroupLogin">
+                                <Form.Label>Nom d'utilisateur</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    placeholder="Login"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.username}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} sm={6}>
+                            <Form.Group className="mb-3" controlId="formGroupEmail">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.email}
+                                />
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
                         <Form.Label>Image de profil (URL)</Form.Label>
                         <Row>
                             <Col xs={8}>
@@ -163,37 +168,39 @@ export default function RegisterPage() {
                                 )}
                             </Col>
                         </Row>
-                        <hr />
-                        <Form.Group className="mb-3" controlId="formGroupPassword">
-                            <Form.Label>Mot de passe</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                isInvalid={!!errors.password}
-                            />
-                            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                    </Row>
+                    <Row className="bg-black text-light my-2 p-2 py-4 mb-5">
+                        <Col xs={12} sm={6}>
+                            <Form.Group className="mb-3" controlId="formGroupPassword">
+                                <Form.Label>Mot de passe</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.password}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                        <Col xs={12} sm={6}>
+                            <Form.Group className="mb-3" controlId="formGroupPasswordConfirmation">
+                                <Form.Label>Confirmation du mot de passe</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Password"
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    isInvalid={!!errors.confirmPassword}
+                                />
+                                <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
 
-                        </Form.Group>
-                        <Form.Group className="mb-3" controlId="formGroupPasswordConfirmation">
-                            <Form.Label>Confirmation du mot de passe</Form.Label>
-                            <Form.Control
-                                type="password"
-                                placeholder="Password"
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                isInvalid={!!errors.confirmPassword}
-                            />
-                            <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
-
-                        </Form.Group>
-
-
-                        <hr />
-
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
                         <OverlayTrigger
                             placement="right"
                             delay={{ show: 250, hide: 400 }}
@@ -212,51 +219,59 @@ export default function RegisterPage() {
 
                         {formData.isArtist && (
                             <div className="mt-3">
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Nom d'Artiste</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Nom affiché"
-                                        name="displayed_name"
-                                        value={formData.artistInfos.displayed_name}
-                                        onChange={handleArtistChange}
-                                        isInvalid={!!errors.displayed_name}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.displayed_name}</Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Profession</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Profession"
-                                        name="profession"
-                                        value={formData.artistInfos.profession}
-                                        onChange={handleArtistChange}
-                                        isInvalid={!!errors.profession}
-                                    />
-                                    <Form.Control.Feedback type="invalid">{errors.profession}</Form.Control.Feedback>
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Type de compte</Form.Label>
-                                    <Form.Select
-                                        name="accountType"
-                                        value={formData.artistInfos.accountType}
-                                        onChange={handleArtistChange}
-                                        isInvalid={!!errors.accountType}
-                                    >
-                                        <option value="">Choisissez...</option>
-                                        <option value="SINGLE">Artiste Indépendant</option>
-                                        <option value="COLLECTIVE">Collectif d'artiste</option>
-                                        <option value="INSTITUTION">Institut</option>
-                                    </Form.Select>
-                                    <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
-                                </Form.Group>
+                                <Row>
+                                    <Col xs={12} md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Nom d'Artiste</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Nom affiché"
+                                                name="displayed_name"
+                                                value={formData.artistInfos.displayed_name}
+                                                onChange={handleArtistChange}
+                                                isInvalid={!!errors.displayed_name}
+                                            />
+                                            <Form.Control.Feedback type="invalid">{errors.displayed_name}</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xs={12} md={6}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Profession</Form.Label>
+                                            <Form.Control
+                                                type="text"
+                                                placeholder="Profession"
+                                                name="profession"
+                                                value={formData.artistInfos.profession}
+                                                onChange={handleArtistChange}
+                                                isInvalid={!!errors.profession}
+                                            />
+                                            <Form.Control.Feedback type="invalid">{errors.profession}</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col xs={12}>
+                                        <Form.Group className="mb-3">
+                                            <Form.Label>Type de compte</Form.Label>
+                                            <Form.Select
+                                                name="accountType"
+                                                value={formData.artistInfos.accountType}
+                                                onChange={handleArtistChange}
+                                                isInvalid={!!errors.accountType}
+                                            >
+                                                <option value="SINGLE">Artiste Indépendant</option>
+                                                <option value="COLLECTIVE">Collectif d'artiste</option>
+                                                <option value="INSTITUTION">Institut</option>
+                                            </Form.Select>
+                                            <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
                             </div>
                         )}
                         <div className="d-flex justify-content-between align-items-center mt-4">
                             <Button variant="dark" type="submit">Valider l'inscription</Button>
                         </div>
-                    </div>
+
+                    </Row>
                 </Card.Body>
             </Card>
         </Form>

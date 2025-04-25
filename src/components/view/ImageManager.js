@@ -52,7 +52,7 @@ export default function ImageManager({ currentImages, onImageChange }) {
             ) : (
                 <p>Aucune image ajoutée pour le moment.</p>
             )}
-            <Button variant="info" className="mt-2" onClick={handleAddImage}>
+            <Button variant="dark" className="mt-2" onClick={handleAddImage}>
                 <i className="fa-solid fa-plus"></i>
             </Button>
 

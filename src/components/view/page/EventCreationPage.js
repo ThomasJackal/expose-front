@@ -145,8 +145,7 @@ export default function EventForm() {
     return (
         <Form onSubmit={handleSubmit} className="d-flex justify-content-center mt-5">
             <Card className="w-100">
-                <Card.Header><h4>Créer un Événement</h4></Card.Header>
-
+                <Card.Header as="h3" className="bg-black text-light">Créer un Événement</Card.Header>
                 <Card.Body>
 
                     <Row>
