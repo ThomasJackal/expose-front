@@ -26,7 +26,7 @@ function buildSearchInput(jsonOutput, LatLong) {
         latitude: LatLong.lat,
         longitude: LatLong.lng,
         field: jsonOutput.query,
-        perimeter: jsonOutput.distance,
+        radius: jsonOutput.distance,
         eventType: jsonOutput.eventType,
         tags: jsonOutput.tags
     }

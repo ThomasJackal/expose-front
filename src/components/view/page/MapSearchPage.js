@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import Searchbar from "../Searchbar";
 import { Badge, Button, Card, Carousel, Col, Container, Form, InputGroup, Modal, Nav, Offcanvas, OverlayTrigger, Row, Spinner, Table, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -9,7 +8,6 @@ import FlyToLocation from "../../utils/FlyToLocation";
 import { fetchAddress } from "../../controller/MapController";
 import { search } from "../../controller/SearchController";
 import { markerEvent, markerEventSelected, markerPosition } from "../../utils/marker-icons";
-import SearchBar from "../../SearchBar";
 
 export default function SearchPage(props) {
 
@@ -30,7 +28,7 @@ export default function SearchPage(props) {
     const [hoveredEventId, setHoveredEventId] = useState(null);
     const [searchParams, setSearchParams] = useState({
         query: "",
-        distance: "",
+        distance: 30,
         eventType: null,
         tags: []
     });
@@ -44,6 +42,16 @@ export default function SearchPage(props) {
         handleAddressChange(position)
         search(searchParams, setEvents, position);
     }, [position, setPosition]);
+
+    function handleChange(e) {
+        console.log(searchParams)
+        setSearchParams({
+            ...searchParams,
+            [e.target.name]: e.target.value
+        });
+    };
+
+
 
     async function handleSearch() {
         setLoading(true);
@@ -83,21 +91,22 @@ export default function SearchPage(props) {
     };
 
     return (
-        <Row className="p-0 w-100" style={{
+        <Row className="p-0" style={{
             position: "absolute",
             top: "5rem",
+            right: 0,
             left: 0,
         }}
 
             ref={(node) => {
                 if (node) {
-                    node.style.setProperty("max-width", "100vw", "important");
+                    node.style.setProperty("max-width", "calc(100vw - 3px)", "important");
                 }
             }}
         >
             <Col xs={4} md={6} lg={8} className="px-md-5 my-3" >
                 <Row className="bg-black py-5 px-0 px-md-5">
-                    <InputGroup>
+                    <InputGroup className="pe-0">
                         <Form.Control
                             type="text"
                             value={inputField_text}
@@ -107,6 +116,17 @@ export default function SearchPage(props) {
                             onKeyDown={handleKeyDown}
                             placeholder="Rechercher..."
                         />
+                        <InputGroup.Text id="inputGroup-sizing-sm">Rayon</InputGroup.Text>
+                        <Form.Control
+                            type="number"
+                            name="distance"
+                            value={searchParams.distance}
+                            onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Rayon..."
+                            size="sm"
+                        />
+
                         <Button onClick={async () => handleSearch()} disabled={loading} variant="danger">
                             {loading ?
                                 <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> :
@@ -126,16 +146,16 @@ export default function SearchPage(props) {
                     >
                         {events.length == 0 ?
                             <div className="text-center mt-5">
-                                Aucuns événement n'a été trouvé :(
-                                <br/>
+                                Aucun événement n'a été trouvé :(
+                                <br />
                                 <img
-                                className="mt-5"
-                                style={{ height: "10rem",opacity: "0.08" }}
-                                src="/pictures/EXPOSE_logo_sad.png"
-                                alt="Logo"
-                            />
+                                    className="mt-5"
+                                    style={{ height: "10rem", opacity: "0.08" }}
+                                    src="/pictures/EXPOSE_logo_sad.png"
+                                    alt="Logo"
+                                />
                             </div>
-                            
+
                             : events.map((event, i) => (
                                 <Col xs={12} md={6} xl={3} key={i}>
                                     <Event
@@ -150,11 +170,11 @@ export default function SearchPage(props) {
                 </Row>
             </Col>
 
-            <Col xs={8} md={6} lg={4} className="p-0" style={{ position: "absolute", right: "-10px" }}>
+            <Col xs={8} md={6} lg={4} className="p-0" style={{ position: "absolute", right: "0px" }}>
                 <MapContainer
                     center={center}
                     zoom={13}
-                    style={{ height: "calc(100vh - 11.5rem)", width: "100%", zIndex: 0 }}
+                    style={{ height: "calc(100vh - 11.5rem)", zIndex: 0 }}
                 >
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

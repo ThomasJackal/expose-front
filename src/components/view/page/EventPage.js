@@ -70,10 +70,10 @@ export default function EventPage(props) {
 
             <Col xs={11}>
                 <Card className="sticky-top" style={{ top: "20vh", zIndex: 0 }}>
-                    {event.images.length==0?<a/>:<Carousel>
+                    {event.images.length == 0 ? <a /> : <Carousel>
                         {getCarouselImage()}
                     </Carousel>}
-                    
+
                     <Card.Body>
                         <Row>
                             <Col xs={12} md={8}>
@@ -293,16 +293,18 @@ export default function EventPage(props) {
                                 <small>{element.description}</small>
                             </Form.Label>
                             <div className="float-end">
-                                {getRemainingPlaces(element)}
-                                <Form.Control
-                                    type="number"
-                                    size="sm"
-                                    placeholder="0"
-                                    style={{ width: "3rem" }}
-                                    className="float-end"
-                                    value={articles.find(a => a.name == element.name)?.amount || 0}
-                                    onChange={e => setArticles(updateArticles(element, e.target.value))}
-                                />
+                                <InputGroup>
+                                    <InputGroup.Text>{getRemainingPlaces(element)}</InputGroup.Text>
+                                    <Form.Control
+                                        type="number"
+                                        size="sm"
+                                        placeholder="0"
+                                        style={{ width: "3rem" }}
+                                        className="float-end"
+                                        value={articles.find(a => a.name == element.name)?.amount || 0}
+                                        onChange={e => setArticles(updateArticles(element, e.target.value))}
+                                    />
+                                </InputGroup>
                             </div>
                         </Form.Group>
                     )

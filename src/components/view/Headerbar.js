@@ -111,7 +111,7 @@ export default function Headerbar() {
                             <label className="text-black" style={{ fontFamily: getFont(), fontSize: "1.5rem" }}>
                                 . EX⦁POSE/
                             </label>
-                            <small className="text-danger mt-2">{" " + getEmoji()}</small>
+                            <small className="text-danger mt-2 d-none d-sm-inline">{" " + getEmoji()}</small>
                         </i>
                     </Nav.Link>
                 </Nav>

@@ -20,7 +20,7 @@ export default function RegisterPage() {
         artistInfos: {
             displayed_name: "",
             profession: "",
-            accountType: ""
+            accountType: "SINGLE"
         }
     });
 
@@ -78,7 +78,6 @@ export default function RegisterPage() {
     function validateForm() {
         let newErrors = {};
 
-        // Vérification des champs obligatoires
         if (!formData.email) newErrors.email = "L'email est requis.";
         else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Format d'email invalide.";
 
@@ -91,7 +90,6 @@ export default function RegisterPage() {
             newErrors.confirmPassword = "Les mots de passe ne correspondent pas.";
         }
 
-        // Validation des champs pour un compte artiste
         if (formData.isArtist) {
             if (!formData.artistInfos.displayed_name) newErrors.displayed_name = "Le nom d'artiste est requis.";
             if (!formData.artistInfos.profession) newErrors.profession = "La profession est requise.";
